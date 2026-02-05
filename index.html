@@ -712,7 +712,7 @@
                     </button>
                 </div>
             </div>
-            <div class="bg-black h-[70vh]">
+            <div class="bg-black h-[70vh]" id="project-demo-frame">
                 <iframe id="project-demo-iframe" class="w-full h-full" src="" title="Project Demo" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
@@ -1069,6 +1069,7 @@
         const projectDemoIframe = document.getElementById('project-demo-iframe');
         const projectDemoTitle = document.getElementById('project-demo-title');
         const projectDemoExternal = document.getElementById('project-demo-external');
+        const projectDemoFrame = document.getElementById('project-demo-frame');
 
         function openProjectDemo(url, title) {
             projectDemoTitle.innerText = title || 'Project Demo';
@@ -1086,6 +1087,10 @@
                 projectDemoIframe.removeAttribute('srcdoc');
                 projectDemoIframe.src = url;
             }
+
+            const isFigmaSite = url && url.includes('figma.site');
+            projectDemoFrame.classList.toggle('h-[70vh]', !isFigmaSite);
+            projectDemoFrame.classList.toggle('h-[85vh]', isFigmaSite);
 
             projectDemoModal.classList.remove('hidden');
             setTimeout(() => {
