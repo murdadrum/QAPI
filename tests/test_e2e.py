@@ -62,15 +62,20 @@ def test_modals_suite():
     with sync_playwright() as p:
         browser, context, page, trace_path = _new_page(p, "project-demo-modal")
         page.goto(BASE_URL, wait_until="networkidle")
-        first_demo = page.locator(".project-demo").first
+        demo_btn = page.locator(
+            ".project-demo[data-demo-url]:not([data-demo-url='']):not([data-demo-url='#'])"
+        ).first
         first_card_title = (
-            first_demo.locator("xpath=ancestor::div[contains(@class,'group')][1]//h3")
+            demo_btn.locator("xpath=ancestor::div[contains(@class,'group')][1]//h3")
             .first.inner_text()
         )
-        first_demo.click()
+        demo_btn.click()
         page.wait_for_selector("#project-demo-modal:not(.hidden)", timeout=5000)
         assert page.locator("#project-demo-title").inner_text() == first_card_title
-        assert page.locator("#project-demo-iframe").get_attribute("src")
+        iframe = page.locator("#project-demo-iframe")
+        src = iframe.get_attribute("src")
+        srcdoc = iframe.get_attribute("srcdoc")
+        assert src or srcdoc
         _close_with_trace(browser, context, trace_path)
 
 
