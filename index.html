@@ -349,10 +349,16 @@
             </p>
           </div>
 
-          <!-- CI/CD & DevOps -->
+          <!-- CI/CD & DevOps (Clickable) -->
           <div
-            class="p-6 rounded-2xl bg-slate-50 hover:bg-orange-50 hover:shadow-lg transition-all border border-slate-100 group"
+            onclick="openDemo('devops')"
+            class="cursor-pointer p-6 rounded-2xl bg-slate-50 hover:bg-orange-50 hover:shadow-lg transition-all border border-slate-100 group relative overflow-hidden"
           >
+            <div
+              class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity text-orange-500 text-xs font-bold bg-orange-100 px-2 py-1 rounded-full"
+            >
+              <i class="fa-solid fa-chart-line mr-1"></i> DEMO
+            </div>
             <div
               class="w-12 h-12 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform"
             >
@@ -379,6 +385,37 @@
                 CloudWatch
               </li>
             </ul>
+            <div
+              class="mt-4 rounded-lg border border-slate-200 bg-white/70 px-3 py-2 text-xs text-slate-600 flex items-center gap-2"
+              id="deploy-status"
+            >
+              <span class="inline-flex items-center gap-2 font-semibold text-slate-700">
+                <span
+                  class="w-2 h-2 rounded-full bg-slate-300"
+                  id="deploy-dot"
+                ></span>
+                Latest Deploy:
+              </span>
+              <span id="deploy-text">Loading...</span>
+              <a
+                id="deploy-link"
+                href="https://github.com/murdadrum/QAPI/actions/workflows/deploy.yml"
+                target="_blank"
+                class="ml-auto text-slate-500 hover:text-slate-900 underline"
+              >
+                Details
+              </a>
+            </div>
+            <img
+              class="mt-3 h-5"
+              src="https://github.com/murdadrum/QAPI/actions/workflows/deploy.yml/badge.svg"
+              alt="Deploy to GitHub Pages status"
+            />
+            <p
+              class="text-xs text-orange-500 mt-4 font-semibold opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              Click to view deploy status &rarr;
+            </p>
           </div>
 
           <!-- Languages -->
@@ -1237,7 +1274,7 @@
         </div>
 
         <!-- Modal Body (Split View) -->
-        <div class="grid md:grid-cols-2 h-[500px]">
+            <div class="grid md:grid-cols-2 h-[500px]" id="demo-grid">
           <!-- Code/Dashboard View -->
           <div
             class="bg-slate-900 p-6 border-r border-slate-700 overflow-y-auto font-mono text-sm leading-relaxed"
@@ -1482,8 +1519,102 @@
         }, 12000);
       }
 
-      // Start the simulation
-      window.onload = runTerminal;
+        // Start the simulation
+        window.addEventListener('load', () => {
+          runTerminal();
+          loadDeployStatus();
+        });
+
+        async function loadDeployStatus() {
+          const statusEl = document.getElementById('deploy-text');
+          const dotEl = document.getElementById('deploy-dot');
+          const linkEl = document.getElementById('deploy-link');
+
+          if (!statusEl || !dotEl || !linkEl) return;
+
+          const cacheKey = 'deployStatusCache_v1';
+          const cacheTtlMs = 10 * 60 * 1000;
+
+          const applyStatus = (payload) => {
+            const status = payload.status || 'unknown';
+            const updated = payload.updated
+              ? new Date(payload.updated).toLocaleString()
+              : 'unknown time';
+            statusEl.innerText = `${status.replace(/_/g, ' ')} • ${updated}`;
+            if (payload.url) linkEl.href = payload.url;
+
+            dotEl.classList.remove(
+              'bg-slate-300',
+              'bg-green-500',
+              'bg-red-500',
+              'bg-yellow-500',
+              'bg-blue-500'
+            );
+
+            if (status === 'success') dotEl.classList.add('bg-green-500');
+            else if (status === 'failure') dotEl.classList.add('bg-red-500');
+            else if (status === 'cancelled') dotEl.classList.add('bg-yellow-500');
+            else if (status === 'in_progress' || status === 'queued')
+              dotEl.classList.add('bg-blue-500');
+            else dotEl.classList.add('bg-slate-300');
+          };
+
+          try {
+            const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+            if (cached && Date.now() - cached.timestamp < cacheTtlMs) {
+              applyStatus(cached.payload);
+              return;
+            }
+          } catch (_) {
+            // Ignore cache parsing errors
+          }
+
+          try {
+            const res = await fetch(
+              'https://api.github.com/repos/murdadrum/QAPI/actions/workflows/deploy.yml/runs?per_page=1'
+            );
+            if (!res.ok) throw new Error('Request failed');
+            const data = await res.json();
+            const run = data.workflow_runs && data.workflow_runs[0];
+            if (!run) throw new Error('No runs found');
+
+            const payload = {
+              status: run.conclusion || run.status || 'unknown',
+              updated: run.updated_at || null,
+              url: run.html_url || null,
+            };
+
+            applyStatus(payload);
+            try {
+              localStorage.setItem(
+                cacheKey,
+                JSON.stringify({ timestamp: Date.now(), payload })
+              );
+            } catch (_) {
+              // Ignore storage errors
+            }
+          } catch (err) {
+            // Fallback to stale cache if available
+            try {
+              const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+              if (cached && cached.payload) {
+                applyStatus(cached.payload);
+                return;
+              }
+            } catch (_) {
+              // Ignore cache parsing errors
+            }
+
+            statusEl.innerText = 'Unable to load status';
+            dotEl.classList.remove(
+              'bg-green-500',
+              'bg-red-500',
+              'bg-yellow-500',
+              'bg-blue-500'
+            );
+            dotEl.classList.add('bg-slate-300');
+          }
+        }
 
       /* -------------------------------------------------------------------------- */
       /* Demo Modal Logic                             */
@@ -1493,6 +1624,8 @@
       const demoLeftPane = document.getElementById("demo-left-pane");
       const demoLogs = document.getElementById("demo-logs");
       const demoStatus = document.getElementById("demo-status");
+      const demoGrid = document.getElementById("demo-grid");
+      const demoRightPane = document.getElementById("demo-right-pane");
       let apiMonitorInterval;
 
       const demos = {
@@ -1549,6 +1682,11 @@
           title: "API Monitor & Runner",
           type: "dashboard",
         },
+        devops: {
+          title: "GitHub Actions Deploy Status",
+          type: "iframe",
+          url: "https://github.com/murdadrum/QAPI/actions/workflows/deploy.yml",
+        },
       };
 
       function openDemo(type) {
@@ -1556,6 +1694,7 @@
         const data = demos[type];
         document.getElementById("demo-title").innerText = data.title;
         demoLogs.innerHTML = "";
+        clearInterval(apiMonitorInterval);
 
         // Show Modal
         demoModal.classList.remove("hidden");
@@ -1566,9 +1705,27 @@
 
         // Handle content based on type
         if (data.type === "script") {
+          setDemoLayout("split");
           setupScriptDemo(data);
         } else if (data.type === "dashboard") {
+          setDemoLayout("split");
           setupApiDashboard();
+        } else if (data.type === "iframe") {
+          setupIframeDemo(data);
+        }
+      }
+
+      function setDemoLayout(mode) {
+        if (!demoGrid || !demoRightPane) return;
+
+        if (mode === "iframe") {
+          demoRightPane.classList.add("hidden");
+          demoGrid.style.gridTemplateColumns = "1fr";
+          demoGrid.style.height = "70vh";
+        } else {
+          demoRightPane.classList.remove("hidden");
+          demoGrid.style.gridTemplateColumns = "";
+          demoGrid.style.height = "";
         }
       }
 
@@ -1605,6 +1762,28 @@
           );
         };
         runSteps();
+      }
+
+      function setupIframeDemo(data) {
+        setDemoLayout("iframe");
+        demoLeftPane.innerHTML = `
+                <div class="h-full w-full">
+                    <iframe
+                      class="w-full h-full rounded-lg border border-slate-800 bg-black"
+                      src="${data.url}"
+                      title="${data.title}"
+                      loading="lazy"
+                      referrerpolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                </div>
+                <div class="mt-3 text-xs text-slate-400">
+                  If the embed is blocked, open it in a new tab:
+                  <a class="underline text-slate-300 hover:text-white" href="${data.url}" target="_blank">View GitHub Actions</a>
+                </div>
+            `;
+        demoStatus.innerHTML =
+          '<i class="fa-solid fa-circle-notch fa-spin"></i> Live';
+        demoStatus.className = "text-blue-400 font-bold";
       }
 
       function setupApiDashboard() {
