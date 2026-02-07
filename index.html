@@ -266,43 +266,64 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <!-- Automation (Clickable) -->
+          <!-- Automation (Chips) -->
           <div
-            onclick="openDemo('automation')"
-            class="cursor-pointer p-6 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:shadow-lg transition-all border border-slate-100 group relative overflow-hidden"
+            class="p-6 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:shadow-lg transition-all border border-slate-100 group relative overflow-hidden"
           >
-            <div
-              class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity text-blue-500 text-xs font-bold bg-blue-100 px-2 py-1 rounded-full"
-            >
-              <i class="fa-solid fa-play mr-1"></i> DEMO
+            <div class="flex items-center gap-4 mb-3">
+              <div
+                class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform"
+              >
+                <i class="fa-solid fa-robot"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-800">Automation</h3>
             </div>
-            <div
-              class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform"
-            >
-              <i class="fa-solid fa-robot"></i>
+            <div class="space-y-2">
+              <button
+                onclick="openDemo('automation-selenium')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Selenium WebDriver
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('automation-playwright')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Playwright (TS)
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('automation-cypress')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Cypress
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('automation-appium')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Appium (mobile)
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
             </div>
-            <h3 class="text-xl font-bold text-slate-800 mb-3">Automation</h3>
-            <ul class="space-y-2 text-slate-600">
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i>
-                Selenium WebDriver
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i>
-                Playwright (TS)
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> Cypress
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> Appium
-                (Mobile)
-              </li>
-            </ul>
             <p
               class="text-xs text-blue-400 mt-4 font-semibold opacity-0 group-hover:opacity-100 transition-opacity"
             >
-              Click to view test status &rarr;
+              Click a chip to open a live embed &rarr;
             </p>
           </div>
 
@@ -316,32 +337,42 @@
             >
               <i class="fa-solid fa-chart-line mr-1"></i> DEMO
             </div>
-            <div
-              class="w-12 h-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform"
-            >
-              <i class="fa-solid fa-gauge-high"></i>
+            <div class="flex items-center gap-4 mb-3">
+              <div
+                class="w-12 h-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform"
+              >
+                <i class="fa-solid fa-gauge-high"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-800">
+                API & Performance
+              </h3>
             </div>
-            <h3 class="text-xl font-bold text-slate-800 mb-3">
-              API & Performance
-            </h3>
-            <ul class="space-y-2 text-slate-600">
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> Postman
-                / Newman
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> JMeter
-                / K6
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> REST
-                Assured
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> GraphQL
-                Testing
-              </li>
-            </ul>
+            <div class="space-y-2">
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Postman / Newman
+                </span>
+              </div>
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  JMeter / K6
+                </span>
+              </div>
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  REST Assured
+                </span>
+              </div>
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  GraphQL Testing
+                </span>
+              </div>
+            </div>
             <p
               class="text-xs text-purple-500 mt-4 font-semibold opacity-0 group-hover:opacity-100 transition-opacity"
             >
@@ -351,40 +382,53 @@
 
           <!-- CI/CD & DevOps (Clickable) -->
           <div
-            onclick="openDemo('devops')"
-            class="cursor-pointer p-6 rounded-2xl bg-slate-50 hover:bg-orange-50 hover:shadow-lg transition-all border border-slate-100 group relative overflow-hidden"
+            class="p-6 rounded-2xl bg-slate-50 hover:bg-orange-50 hover:shadow-lg transition-all border border-slate-100 group relative overflow-hidden"
           >
             <div
               class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity text-orange-500 text-xs font-bold bg-orange-100 px-2 py-1 rounded-full"
             >
               <i class="fa-solid fa-chart-line mr-1"></i> DEMO
             </div>
-            <div
-              class="w-12 h-12 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform"
-            >
-              <i class="fa-solid fa-infinity"></i>
+            <div class="flex items-center gap-4 mb-3">
+              <div
+                class="w-12 h-12 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform"
+              >
+                <i class="fa-solid fa-infinity"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-800">
+                DevOps & CI/CD
+              </h3>
             </div>
-            <h3 class="text-xl font-bold text-slate-800 mb-3">
-              DevOps & CI/CD
-            </h3>
-            <ul class="space-y-2 text-slate-600">
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> Jenkins
-                Pipelines
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> GitHub
-                Actions
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> Docker
-                / Kubernetes
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> AWS
-                CloudWatch
-              </li>
-            </ul>
+            <div class="space-y-2">
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Jenkins Pipelines
+                </span>
+              </div>
+              <button
+                onclick="openDemo('devops')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-orange-300 hover:bg-orange-50 transition"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  GitHub Actions
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Docker / Kubernetes
+                </span>
+              </div>
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  AWS CloudWatch
+                </span>
+              </div>
+            </div>
             <div
               class="mt-4 rounded-lg border border-slate-200 bg-white/70 px-3 py-2 text-xs text-slate-600 flex items-center gap-2"
               id="deploy-status"
@@ -422,27 +466,40 @@
           <div
             class="p-6 rounded-2xl bg-slate-50 hover:bg-emerald-50 hover:shadow-lg transition-all border border-slate-100 group"
           >
-            <div
-              class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform"
-            >
-              <i class="fa-solid fa-code"></i>
+            <div class="flex items-center gap-4 mb-3">
+              <div
+                class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform"
+              >
+                <i class="fa-solid fa-code"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-800">Languages</h3>
             </div>
-            <h3 class="text-xl font-bold text-slate-800 mb-3">Languages</h3>
-            <ul class="space-y-2 text-slate-600">
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> Python
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> Java
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i>
-                TypeScript / JS
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-check text-green-500 text-xs"></i> SQL
-              </li>
-            </ul>
+            <div class="space-y-2">
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Python
+                </span>
+              </div>
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Java
+                </span>
+              </div>
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  TypeScript / JS
+                </span>
+              </div>
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  SQL
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1636,6 +1693,46 @@
           url: "https://github.com/murdadrum/QAPI/actions/workflows/qa-e2e.yml",
           target: "https://murdadrum.github.io/QAPI/",
         },
+        "automation-selenium": {
+          title: "Selenium WebDriver",
+          type: "embed",
+          subtitle: "Cross-browser UI automation",
+          points: [
+            "Grid-ready execution",
+            "Page Object Model",
+            "Parallel browser sessions",
+          ],
+        },
+        "automation-playwright": {
+          title: "Playwright (TS)",
+          type: "embed",
+          subtitle: "Modern E2E automation",
+          points: [
+            "Auto-waits + reliable selectors",
+            "Tracing + screenshots",
+            "Multi-browser coverage",
+          ],
+        },
+        "automation-cypress": {
+          title: "Cypress",
+          type: "embed",
+          subtitle: "Fast UI + component tests",
+          points: [
+            "Time-travel debugging",
+            "Network stubbing",
+            "CI-friendly runs",
+          ],
+        },
+        "automation-appium": {
+          title: "Appium (Mobile)",
+          type: "embed",
+          subtitle: "iOS + Android automation",
+          points: [
+            "Real device coverage",
+            "Hybrid app support",
+            "Parallel device runs",
+          ],
+        },
         api: {
           title: "API Monitor & Runner",
           type: "dashboard",
@@ -1671,6 +1768,9 @@
         } else if (data.type === "qa") {
           setDemoLayout("split");
           setupAutomationDashboard(data);
+        } else if (data.type === "embed") {
+          setDemoLayout("split");
+          setupEmbedDemo(data);
         } else if (data.type === "devops") {
           setDemoLayout("split");
           setupDevopsDashboard(data);
@@ -1809,6 +1909,7 @@
 
       function setupAutomationDashboard(data) {
         if (demoRightTitle) demoRightTitle.innerText = "Test Matrix";
+        const targetLabel = data.target.replace(/^https?:\/\//, "");
         demoLeftPane.innerHTML = `
                 <div class="space-y-4">
                     <div class="flex items-center gap-3">
@@ -1831,7 +1932,7 @@
                         </div>
                         <div class="bg-slate-800 p-3 rounded border border-slate-700">
                             <div class="text-slate-500 text-xs">Target</div>
-                            <a id="qa-target-link" class="text-slate-200 font-bold underline hover:text-white" href="${data.target}" target="_blank">${data.target.replace(/^https?:\\/\\//, "")}</a>
+                            <a id="qa-target-link" class="text-slate-200 font-bold underline hover:text-white" href="${data.target}" target="_blank">${targetLabel}</a>
                         </div>
                     </div>
                     <div class="bg-slate-800 p-3 rounded border border-slate-700">
@@ -1856,6 +1957,59 @@
         demoStatus.className = "text-blue-400 font-bold";
 
         loadAutomationStatus(data);
+      }
+
+      function setupEmbedDemo(data) {
+        if (demoRightTitle) demoRightTitle.innerText = "Embed Notes";
+        demoLeftPane.innerHTML = `
+                <div class="h-full w-full">
+                    <iframe
+                      id="tech-embed-frame"
+                      class="w-full h-full rounded-lg border border-slate-800 bg-black"
+                      title="${data.title}"
+                      loading="lazy"
+                    ></iframe>
+                </div>
+                <div class="mt-3 text-xs text-slate-400">
+                  Placeholder live embed for ${data.title}. Replace with a real URL when ready.
+                </div>
+            `;
+
+        const frame = document.getElementById("tech-embed-frame");
+        if (frame) {
+          frame.srcdoc = `
+            <style>
+              body{margin:0;font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#0b1220;color:#e2e8f0;display:flex;align-items:center;justify-content:center;height:100vh}
+              .card{border:1px solid #1f2937;background:linear-gradient(135deg,#0f172a,#111827);padding:24px;border-radius:16px;max-width:520px}
+              .title{font-weight:700;font-size:20px;margin-bottom:8px}
+              .sub{color:#94a3b8;font-size:12px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
+              .pill{display:inline-flex;align-items:center;gap:6px;background:#0b3b72;color:#93c5fd;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:600}
+              ul{margin:12px 0 0 16px;color:#cbd5f5;font-size:14px}
+            </style>
+            <div class="card">
+              <div class="sub">${data.subtitle || "Automation Embed"}</div>
+              <div class="title">${data.title}</div>
+              <div class="pill">Live Embed Placeholder</div>
+              <ul>
+                ${(data.points || []).map((p) => `<li>${p}</li>`).join("")}
+              </ul>
+            </div>
+          `;
+        }
+
+        demoLogs.innerHTML = `
+                <div class="text-slate-500 text-xs uppercase tracking-wider mb-2">Notes</div>
+                ${(data.points || [])
+                  .map(
+                    (p) =>
+                      `<div class="text-slate-300 text-sm border border-slate-800 bg-slate-900/50 rounded px-3 py-2">${p}</div>`,
+                  )
+                  .join("")}
+            `;
+
+        demoStatus.innerHTML =
+          '<i class="fa-solid fa-circle-notch fa-spin"></i> Placeholder';
+        demoStatus.className = "text-blue-400 font-bold";
       }
 
       async function loadAutomationStatus(data) {
