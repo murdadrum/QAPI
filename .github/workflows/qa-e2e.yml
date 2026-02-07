@@ -40,3 +40,10 @@ jobs:
           BASE_URL: https://murdadrum.github.io/QAPI/
           BROWSER: ${{ matrix.browser }}
         run: pytest -q
+
+      - name: Upload Playwright traces
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces-${{ matrix.browser }}
+          path: traces/*.zip
+          if-no-files-found: warn

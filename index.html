@@ -73,6 +73,54 @@
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.5);
       }
+
+      /* Theme Toggle (Light/Dark) */
+      html.theme-dark body {
+        background-color: #0b1220;
+        color: #e2e8f0;
+      }
+      html.theme-dark .bg-white {
+        background-color: #0f172a !important;
+      }
+      html.theme-dark .bg-white\/90 {
+        background-color: rgba(15, 23, 42, 0.9) !important;
+      }
+      html.theme-dark .bg-white\/80 {
+        background-color: rgba(15, 23, 42, 0.8) !important;
+      }
+      html.theme-dark .bg-white\/70 {
+        background-color: rgba(15, 23, 42, 0.7) !important;
+      }
+      html.theme-dark .bg-slate-50 {
+        background-color: #0b1220 !important;
+      }
+      html.theme-dark .bg-slate-100 {
+        background-color: #111827 !important;
+      }
+      html.theme-dark .bg-slate-200 {
+        background-color: #1f2937 !important;
+      }
+      html.theme-dark .text-slate-900 {
+        color: #f1f5f9 !important;
+      }
+      html.theme-dark .text-slate-800 {
+        color: #e2e8f0 !important;
+      }
+      html.theme-dark .text-slate-700 {
+        color: #cbd5f5 !important;
+      }
+      html.theme-dark .text-slate-600 {
+        color: #94a3b8 !important;
+      }
+      html.theme-dark .text-slate-500 {
+        color: #94a3b8 !important;
+      }
+      html.theme-dark .border-slate-200 {
+        border-color: #1e293b !important;
+      }
+      html.theme-dark .border-slate-100 {
+        border-color: #1e293b !important;
+      }
     </style>
   </head>
   <body class="bg-slate-50 text-slate-800 antialiased font-sans">
@@ -88,7 +136,7 @@
               >JOSH<span class="text-qa-accent">/</span>BARTEAUX</span
             >
           </div>
-          <div class="hidden md:flex space-x-8">
+          <div class="hidden md:flex items-center space-x-6">
             <a
               href="#home"
               class="text-slate-600 hover:text-qa-accent transition-colors font-medium"
@@ -109,6 +157,13 @@
               class="text-slate-600 hover:text-qa-accent transition-colors font-medium"
               >Process</a
             >
+            <button
+              id="theme-toggle"
+              class="w-10 h-10 rounded-full border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition flex items-center justify-center"
+              aria-label="Toggle theme"
+            >
+              <i id="theme-icon" class="fa-solid fa-moon"></i>
+            </button>
             <a
               href="#contact"
               class="px-4 py-2 rounded-full bg-slate-900 text-white hover:bg-slate-700 transition-colors font-medium"
@@ -132,6 +187,14 @@
         class="hidden md:hidden bg-white border-b border-slate-200"
       >
         <div class="px-4 pt-2 pb-4 space-y-1">
+          <button
+            id="theme-toggle-mobile"
+            class="w-full flex items-center justify-between px-3 py-2 rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition"
+            aria-label="Toggle theme"
+          >
+            <span class="font-medium">Theme</span>
+            <i id="theme-icon-mobile" class="fa-solid fa-moon"></i>
+          </button>
           <a
             href="#home"
             class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-qa-accent rounded-md"
@@ -276,46 +339,103 @@
               >
                 <i class="fa-solid fa-robot"></i>
               </div>
-              <h3 class="text-xl font-bold text-slate-800">Automation</h3>
+              <h3 class="text-xl font-bold text-slate-800">Playwright</h3>
             </div>
-            <div class="space-y-2">
+            <div class="space-y-3">
+              <div class="text-xs uppercase tracking-wider text-slate-400">
+                Core Suites
+              </div>
               <button
-                onclick="openDemo('automation-selenium')"
+                onclick="openDemo('automation')"
                 class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  Selenium WebDriver
+                  Crossbrowser E2E
                 </span>
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
               <button
-                onclick="openDemo('automation-playwright')"
+                onclick="openDemo('automation-chat-assistant')"
                 class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  Playwright (TS)
+                  Chat Assistant
                 </span>
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
               <button
-                onclick="openDemo('automation-cypress')"
+                onclick="openDemo('automation-form-submit')"
                 class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  Cypress
+                  Form Submit
                 </span>
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
               <button
-                onclick="openDemo('automation-appium')"
+                onclick="openDemo('automation-modals')"
                 class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  Appium (mobile)
+                  Modals
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('automation-links-downloads')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Links + Downloads
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+
+              <div class="text-xs uppercase tracking-wider text-slate-400 pt-1">
+                Emulation
+              </div>
+              <button
+                onclick="openDemo('automation-emulation-mobile')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Mobile (iPhone + Android)
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('automation-emulation-locale')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Locale (UK, Australia, India)
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('automation-emulation-design')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Design (Light/Dark Toggle)
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('automation-emulation-offline')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Offline
                 </span>
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
@@ -462,7 +582,7 @@
             </p>
           </div>
 
-          <!-- Languages -->
+          <!-- Documentation -->
           <div
             class="p-6 rounded-2xl bg-slate-50 hover:bg-emerald-50 hover:shadow-lg transition-all border border-slate-100 group"
           >
@@ -472,31 +592,49 @@
               >
                 <i class="fa-solid fa-code"></i>
               </div>
-              <h3 class="text-xl font-bold text-slate-800">Languages</h3>
+              <h3 class="text-xl font-bold text-slate-800">Documentation</h3>
             </div>
             <div class="space-y-2">
               <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  Python
+                  Requirements
                 </span>
               </div>
               <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  Java
+                  User Stories
                 </span>
               </div>
               <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  TypeScript / JS
+                  RTM
                 </span>
               </div>
               <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  SQL
+                  Test Scripts
+                </span>
+              </div>
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Bug Tracking
+                </span>
+              </div>
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  UAT
+                </span>
+              </div>
+              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Retrospectives
                 </span>
               </div>
             </div>
@@ -1428,6 +1566,64 @@
         menu.classList.toggle("hidden");
       });
 
+      // Theme Toggle
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeToggleMobile = document.getElementById("theme-toggle-mobile");
+      const themeIcon = document.getElementById("theme-icon");
+      const themeIconMobile = document.getElementById("theme-icon-mobile");
+      const rootEl = document.documentElement;
+
+      function applyTheme(mode) {
+        const isDark = mode === "dark";
+        rootEl.classList.toggle("theme-dark", isDark);
+        try {
+          localStorage.setItem("theme", mode);
+        } catch (_) {
+          // ignore storage errors
+        }
+        const iconClass = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+        if (themeIcon) themeIcon.className = iconClass;
+        if (themeIconMobile) themeIconMobile.className = iconClass;
+        if (themeToggle) {
+          themeToggle.setAttribute(
+            "aria-label",
+            isDark ? "Switch to light theme" : "Switch to dark theme",
+          );
+        }
+        if (themeToggleMobile) {
+          themeToggleMobile.setAttribute(
+            "aria-label",
+            isDark ? "Switch to light theme" : "Switch to dark theme",
+          );
+        }
+      }
+
+      function initTheme() {
+        try {
+          const saved = localStorage.getItem("theme");
+          if (saved) {
+            applyTheme(saved);
+            return;
+          }
+        } catch (_) {
+          // ignore storage errors
+        }
+        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          applyTheme("dark");
+        } else {
+          applyTheme("light");
+        }
+      }
+
+      function toggleTheme() {
+        const isDark = rootEl.classList.contains("theme-dark");
+        applyTheme(isDark ? "light" : "dark");
+      }
+
+      initTheme();
+      if (themeToggle) themeToggle.addEventListener("click", toggleTheme);
+      if (themeToggleMobile) themeToggleMobile.addEventListener("click", toggleTheme);
+
       // ... existing filterProjects script ...
       // Project Filtering
       function filterProjects(category) {
@@ -1693,45 +1889,53 @@
           url: "https://github.com/murdadrum/QAPI/actions/workflows/qa-e2e.yml",
           target: "https://murdadrum.github.io/QAPI/",
         },
-        "automation-selenium": {
-          title: "Selenium WebDriver",
+        "automation-chat-assistant": {
+          title: "Chat Assistant",
           type: "embed",
-          subtitle: "Cross-browser UI automation",
-          points: [
-            "Grid-ready execution",
-            "Page Object Model",
-            "Parallel browser sessions",
-          ],
+          subtitle: "Portfolio assistant validation",
+          points: ["Intent coverage", "Fallback responses", "Latency threshold"],
         },
-        "automation-playwright": {
-          title: "Playwright (TS)",
+        "automation-form-submit": {
+          title: "Form Submit",
           type: "embed",
-          subtitle: "Modern E2E automation",
-          points: [
-            "Auto-waits + reliable selectors",
-            "Tracing + screenshots",
-            "Multi-browser coverage",
-          ],
+          subtitle: "Contact form workflow",
+          points: ["Validation errors", "Successful submit + alert", "Spam/empty handling"],
         },
-        "automation-cypress": {
-          title: "Cypress",
+        "automation-modals": {
+          title: "Modals",
           type: "embed",
-          subtitle: "Fast UI + component tests",
-          points: [
-            "Time-travel debugging",
-            "Network stubbing",
-            "CI-friendly runs",
-          ],
+          subtitle: "Modal behavior + focus",
+          points: ["Open/close + ESC", "Focus trapping", "Backdrop click"],
         },
-        "automation-appium": {
-          title: "Appium (Mobile)",
+        "automation-links-downloads": {
+          title: "Links + Downloads",
           type: "embed",
-          subtitle: "iOS + Android automation",
-          points: [
-            "Real device coverage",
-            "Hybrid app support",
-            "Parallel device runs",
-          ],
+          subtitle: "Outbound integrity",
+          points: ["External link status", "Download headers", "No mixed content"],
+        },
+        "automation-emulation-mobile": {
+          title: "Emulation: Mobile",
+          type: "embed",
+          subtitle: "iPhone + Android profiles",
+          points: ["iPhone 15 + Pixel 8", "Touch + orientation", "Responsive layout checks"],
+        },
+        "automation-emulation-locale": {
+          title: "Emulation: Locale",
+          type: "embed",
+          subtitle: "UK, Australia, India",
+          points: ["Date + currency formats", "Number separators", "Locale edge cases"],
+        },
+        "automation-emulation-design": {
+          title: "Emulation: Design",
+          type: "embed",
+          subtitle: "Light/Dark theme validation",
+          points: ["Theme toggle states", "Contrast checks", "Snapshot diffs"],
+        },
+        "automation-emulation-offline": {
+          title: "Emulation: Offline",
+          type: "embed",
+          subtitle: "Resilience + caching",
+          points: ["Offline banner UX", "Cache hits", "Retry/backoff flows"],
         },
         api: {
           title: "API Monitor & Runner",
@@ -1934,6 +2138,11 @@
                             <div class="text-slate-500 text-xs">Target</div>
                             <a id="qa-target-link" class="text-slate-200 font-bold underline hover:text-white" href="${data.target}" target="_blank">${targetLabel}</a>
                         </div>
+                        <div class="bg-slate-800 p-3 rounded border border-slate-700">
+                            <div class="text-slate-500 text-xs">Trace Viewer</div>
+                            <a id="qa-trace-link" class="text-slate-200 font-bold underline hover:text-white" href="${data.url}" target="_blank">Loading...</a>
+                            <div id="qa-trace-note" class="text-slate-500 text-[10px]">Latest run traces</div>
+                        </div>
                     </div>
                     <div class="bg-slate-800 p-3 rounded border border-slate-700">
                         <div class="text-slate-500 text-xs mb-1">Commit</div>
@@ -2022,6 +2231,8 @@
         const durationEl = document.getElementById("qa-duration");
         const commitEl = document.getElementById("qa-commit");
         const commitLinkEl = document.getElementById("qa-commit-link");
+        const traceLinkEl = document.getElementById("qa-trace-link");
+        const traceNoteEl = document.getElementById("qa-trace-note");
         const updatedEl = document.getElementById("qa-updated");
         const runLinkEl = document.getElementById("qa-run-link");
         const jobsEl = document.getElementById("qa-jobs");
@@ -2039,6 +2250,12 @@
           if (durationEl) durationEl.innerText = payload.duration || "--";
           if (commitEl) commitEl.innerText = payload.commit || "--";
           if (commitLinkEl && payload.commitUrl) commitLinkEl.href = payload.commitUrl;
+          if (traceLinkEl) {
+            traceLinkEl.href = payload.traceUrl || payload.runUrl || data.url;
+            traceLinkEl.innerText =
+              payload.traceLabel || (payload.traceUrl ? "Download Trace" : "View Artifacts");
+          }
+          if (traceNoteEl) traceNoteEl.innerText = payload.traceNote || "Latest run traces";
           if (updatedEl) updatedEl.innerText = `Last updated: ${payload.updated || "--"}`;
           if (runLinkEl && payload.runUrl) runLinkEl.href = payload.runUrl;
 
@@ -2112,6 +2329,19 @@
             };
           });
 
+          const artifactsRes = await fetch(
+            `https://api.github.com/repos/murdadrum/QAPI/actions/runs/${run.id}/artifacts?per_page=100`,
+          );
+          const artifactsData = artifactsRes.ok ? await artifactsRes.json() : { artifacts: [] };
+          const artifacts = artifactsData.artifacts || [];
+          const traceArtifact =
+            artifacts.find(
+              (artifact) =>
+                artifact.name &&
+                artifact.name.startsWith("playwright-traces-") &&
+                !artifact.expired,
+            ) || artifacts.find((artifact) => artifact.name && artifact.name.startsWith("playwright-traces-"));
+
           const totalJobs = jobs.length;
           const passedJobs = jobs.filter((job) => job.statusRaw === "success").length;
           const passRate = totalJobs
@@ -2145,6 +2375,13 @@
               ? new Date(run.updated_at).toLocaleString()
               : "--",
             runUrl: run.html_url || data.url,
+            traceUrl: traceArtifact ? traceArtifact.archive_download_url : null,
+            traceLabel: traceArtifact
+              ? `Download ${traceArtifact.name.replace("playwright-traces-", "")} trace`
+              : null,
+            traceNote: traceArtifact
+              ? "Open the .zip in trace.playwright.dev"
+              : "No trace artifact found yet",
             jobs,
           };
 
