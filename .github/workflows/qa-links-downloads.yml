@@ -1,0 +1,45 @@
+name: QA Links + Downloads
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  links-downloads:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest playwright
+
+      - name: Install Playwright browsers
+        run: python -m playwright install --with-deps chromium
+
+      - name: Run Links + Downloads suite
+        env:
+          BASE_URL: https://murdadrum.github.io/QAPI/
+          BROWSER: chromium
+        run: pytest -q -k "links_downloads"
+
+      - name: Upload Playwright traces
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces-links-downloads
+          path: traces/*.zip
+          if-no-files-found: warn

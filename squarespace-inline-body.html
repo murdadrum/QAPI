@@ -367,7 +367,7 @@
               >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  Mobile (iPhone + Android)
+                  Mobile
                 </span>
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
@@ -377,7 +377,7 @@
               >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  Locale (UK, Australia, India)
+                  Geolocation
                 </span>
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
@@ -387,7 +387,7 @@
               >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  Design (Light/Dark Toggle)
+                  Design
                 </span>
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
@@ -1846,34 +1846,39 @@
 
       const demos = {
         automation: {
-          title: "Playwright + Pytest QA Run",
+          title: "Crossbrowser E2E",
           type: "qa",
           url: "https://github.com/murdadrum/QAPI/actions/workflows/qa-e2e.yml",
           target: "https://murdadrum.github.io/QAPI/",
+          suite: "Playwright + Pytest E2E",
         },
         "automation-chat-assistant": {
           title: "Chat Assistant",
-          type: "embed",
-          subtitle: "Portfolio assistant validation",
-          points: ["Intent coverage", "Fallback responses", "Latency threshold"],
+          type: "qa",
+          url: "https://github.com/murdadrum/QAPI/actions/workflows/qa-chat-assistant.yml",
+          target: "https://murdadrum.github.io/QAPI/",
+          suite: "Chat Assistant Validation",
         },
         "automation-form-submit": {
           title: "Form Submit",
-          type: "embed",
-          subtitle: "Contact form workflow",
-          points: ["Validation errors", "Successful submit + alert", "Spam/empty handling"],
+          type: "qa",
+          url: "https://github.com/murdadrum/QAPI/actions/workflows/qa-form-submit.yml",
+          target: "https://murdadrum.github.io/QAPI/",
+          suite: "Contact Form Workflow",
         },
         "automation-modals": {
           title: "Modals",
-          type: "embed",
-          subtitle: "Modal behavior + focus",
-          points: ["Open/close + ESC", "Focus trapping", "Backdrop click"],
+          type: "qa",
+          url: "https://github.com/murdadrum/QAPI/actions/workflows/qa-modals.yml",
+          target: "https://murdadrum.github.io/QAPI/",
+          suite: "Modal Behavior + Focus",
         },
         "automation-links-downloads": {
           title: "Links + Downloads",
-          type: "embed",
-          subtitle: "Outbound integrity",
-          points: ["External link status", "Download headers", "No mixed content"],
+          type: "qa",
+          url: "https://github.com/murdadrum/QAPI/actions/workflows/qa-links-downloads.yml",
+          target: "https://murdadrum.github.io/QAPI/",
+          suite: "Outbound Integrity",
         },
         "automation-emulation-mobile": {
           title: "Emulation: Mobile",
@@ -1882,10 +1887,10 @@
           points: ["iPhone 15 + Pixel 8", "Touch + orientation", "Responsive layout checks"],
         },
         "automation-emulation-locale": {
-          title: "Emulation: Locale",
+          title: "Emulation: Geolocation",
           type: "embed",
-          subtitle: "UK, Australia, India",
-          points: ["Date + currency formats", "Number separators", "Locale edge cases"],
+          subtitle: "Country + city targeting",
+          points: ["GPS spoofing", "Regional content", "Compliance prompts"],
         },
         "automation-emulation-design": {
           title: "Emulation: Design",
@@ -2080,7 +2085,7 @@
                 <div class="space-y-4">
                     <div class="flex items-center gap-3">
                         <span class="text-xs uppercase tracking-wider text-slate-400">Suite</span>
-                        <span class="text-slate-200 font-bold">Playwright + Pytest E2E</span>
+                        <span class="text-slate-200 font-bold">${data.suite || data.title}</span>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div class="bg-slate-800 p-3 rounded border border-slate-700">
@@ -2255,8 +2260,9 @@
         }
 
         try {
+          const workflowFile = data.url ? data.url.split("/").pop() : "qa-e2e.yml";
           const runRes = await fetch(
-            "https://api.github.com/repos/murdadrum/QAPI/actions/workflows/qa-e2e.yml/runs?per_page=1",
+            `https://api.github.com/repos/murdadrum/QAPI/actions/workflows/${workflowFile}/runs?per_page=1`,
           );
           if (!runRes.ok) throw new Error("Failed to load workflow runs");
           const runData = await runRes.json();
