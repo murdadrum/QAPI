@@ -379,6 +379,32 @@
                 CloudWatch
               </li>
             </ul>
+            <div
+              class="mt-4 rounded-lg border border-slate-200 bg-white/70 px-3 py-2 text-xs text-slate-600 flex items-center gap-2"
+              id="deploy-status"
+            >
+              <span class="inline-flex items-center gap-2 font-semibold text-slate-700">
+                <span
+                  class="w-2 h-2 rounded-full bg-slate-300"
+                  id="deploy-dot"
+                ></span>
+                Latest Deploy:
+              </span>
+              <span id="deploy-text">Loading...</span>
+              <a
+                id="deploy-link"
+                href="https://github.com/murdadrum/QAPI/actions/workflows/deploy.yml"
+                target="_blank"
+                class="ml-auto text-slate-500 hover:text-slate-900 underline"
+              >
+                Details
+              </a>
+            </div>
+            <img
+              class="mt-3 h-5"
+              src="https://github.com/murdadrum/QAPI/actions/workflows/deploy.yml/badge.svg"
+              alt="Deploy to GitHub Pages status"
+            />
           </div>
 
           <!-- Languages -->
@@ -1482,8 +1508,102 @@
         }, 12000);
       }
 
-      // Start the simulation
-      window.onload = runTerminal;
+        // Start the simulation
+        window.addEventListener('load', () => {
+          runTerminal();
+          loadDeployStatus();
+        });
+
+        async function loadDeployStatus() {
+          const statusEl = document.getElementById('deploy-text');
+          const dotEl = document.getElementById('deploy-dot');
+          const linkEl = document.getElementById('deploy-link');
+
+          if (!statusEl || !dotEl || !linkEl) return;
+
+          const cacheKey = 'deployStatusCache_v1';
+          const cacheTtlMs = 10 * 60 * 1000;
+
+          const applyStatus = (payload) => {
+            const status = payload.status || 'unknown';
+            const updated = payload.updated
+              ? new Date(payload.updated).toLocaleString()
+              : 'unknown time';
+            statusEl.innerText = `${status.replace(/_/g, ' ')} • ${updated}`;
+            if (payload.url) linkEl.href = payload.url;
+
+            dotEl.classList.remove(
+              'bg-slate-300',
+              'bg-green-500',
+              'bg-red-500',
+              'bg-yellow-500',
+              'bg-blue-500'
+            );
+
+            if (status === 'success') dotEl.classList.add('bg-green-500');
+            else if (status === 'failure') dotEl.classList.add('bg-red-500');
+            else if (status === 'cancelled') dotEl.classList.add('bg-yellow-500');
+            else if (status === 'in_progress' || status === 'queued')
+              dotEl.classList.add('bg-blue-500');
+            else dotEl.classList.add('bg-slate-300');
+          };
+
+          try {
+            const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+            if (cached && Date.now() - cached.timestamp < cacheTtlMs) {
+              applyStatus(cached.payload);
+              return;
+            }
+          } catch (_) {
+            // Ignore cache parsing errors
+          }
+
+          try {
+            const res = await fetch(
+              'https://api.github.com/repos/murdadrum/QAPI/actions/workflows/deploy.yml/runs?per_page=1'
+            );
+            if (!res.ok) throw new Error('Request failed');
+            const data = await res.json();
+            const run = data.workflow_runs && data.workflow_runs[0];
+            if (!run) throw new Error('No runs found');
+
+            const payload = {
+              status: run.conclusion || run.status || 'unknown',
+              updated: run.updated_at || null,
+              url: run.html_url || null,
+            };
+
+            applyStatus(payload);
+            try {
+              localStorage.setItem(
+                cacheKey,
+                JSON.stringify({ timestamp: Date.now(), payload })
+              );
+            } catch (_) {
+              // Ignore storage errors
+            }
+          } catch (err) {
+            // Fallback to stale cache if available
+            try {
+              const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+              if (cached && cached.payload) {
+                applyStatus(cached.payload);
+                return;
+              }
+            } catch (_) {
+              // Ignore cache parsing errors
+            }
+
+            statusEl.innerText = 'Unable to load status';
+            dotEl.classList.remove(
+              'bg-green-500',
+              'bg-red-500',
+              'bg-yellow-500',
+              'bg-blue-500'
+            );
+            dotEl.classList.add('bg-slate-300');
+          }
+        }
 
       /* -------------------------------------------------------------------------- */
       /* Demo Modal Logic                             */
