@@ -74,6 +74,113 @@
         border: 1px solid rgba(255, 255, 255, 0.5);
       }
 
+      #demo-grid.docs-wide {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+      #demo-grid.docs-wide #demo-left-pane {
+        border-right: none;
+        border-bottom: 1px solid #334155;
+      }
+      #demo-grid.docs-wide #demo-right-pane {
+        border-top: 1px solid #1f2937;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+      }
+      #demo-grid.docs-wide #demo-logs {
+        height: auto;
+        max-height: 180px;
+        overflow-y: auto;
+        padding-bottom: 0;
+      }
+
+      @media (max-width: 768px) {
+        #demo-content {
+          max-height: 90vh;
+        }
+        #demo-grid {
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+          height: calc(100vh - 180px);
+        }
+        #demo-left-pane,
+        #demo-right-pane {
+          border-right: none;
+          border-bottom: 1px solid #334155;
+          max-height: 40vh;
+          overflow-y: auto;
+        }
+        #demo-right-pane {
+          border-bottom: none;
+        }
+        #demo-logs {
+          height: auto;
+          max-height: none;
+          overflow-y: visible;
+          padding-bottom: 0;
+        }
+
+        #demo-grid.docs-wide {
+          grid-template-rows: minmax(0, 1fr) auto;
+        }
+        #demo-grid.docs-wide #demo-left-pane {
+          max-height: none;
+          overflow-y: auto;
+        }
+        #demo-grid.docs-wide #demo-right-pane {
+          max-height: none;
+          height: auto;
+          overflow-y: visible;
+          border-bottom: none;
+          border-top: 1px solid #1f2937;
+        }
+        #demo-grid.docs-wide #demo-logs {
+          max-height: none;
+          overflow-y: visible;
+        }
+
+        #demo-grid.docs-manual {
+          grid-template-rows: minmax(0, 1fr) auto;
+        }
+        #demo-grid.docs-manual #demo-left-pane {
+          max-height: none;
+          overflow-y: auto;
+        }
+        #demo-grid.docs-manual #demo-right-pane {
+          max-height: none;
+          height: auto;
+          overflow-y: visible;
+          border-bottom: none;
+          border-top: 1px solid #1f2937;
+          padding: 0.75rem;
+        }
+        #demo-grid.docs-manual #demo-logs {
+          max-height: none;
+          overflow-y: visible;
+        }
+        #demo-grid.docs-manual #docs-document {
+          padding-top: 0.4rem;
+          padding-bottom: 0.4rem;
+          font-size: 0.75rem;
+        }
+        #demo-grid.docs-manual #docs-document-label {
+          font-size: 0.6rem;
+        }
+        #demo-grid.docs-manual #docs-format-md,
+        #demo-grid.docs-manual #docs-format-csv,
+        #demo-grid.docs-manual #docs-format-json,
+        #demo-grid.docs-manual #docs-copy,
+        #demo-grid.docs-manual #docs-download {
+          padding: 0.35rem 0.6rem;
+          font-size: 0.65rem;
+        }
+        #demo-grid.docs-manual .space-y-3 > :not([hidden]) ~ :not([hidden]) {
+          margin-top: 0.5rem;
+        }
+      }
+
       /* Theme Toggle (Light/Dark) */
       html.theme-dark body {
         background-color: #0b1220;
@@ -595,48 +702,76 @@
               <h3 class="text-xl font-bold text-slate-800">Documentation</h3>
             </div>
             <div class="space-y-2">
-              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+              <button
+                onclick="openDemo('docs-requirements')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-emerald-300 hover:bg-emerald-50 transition"
+              >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
                   Requirements
                 </span>
-              </div>
-              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('docs-user-stories')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-emerald-300 hover:bg-emerald-50 transition"
+              >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
                   User Stories
                 </span>
-              </div>
-              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('docs-rtm')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-emerald-300 hover:bg-emerald-50 transition"
+              >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
                   RTM
                 </span>
-              </div>
-              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('docs-test-scripts')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-emerald-300 hover:bg-emerald-50 transition"
+              >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
                   Test Scripts
                 </span>
-              </div>
-              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('docs-bug-tracking')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-emerald-300 hover:bg-emerald-50 transition"
+              >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
                   Bug Tracking
                 </span>
-              </div>
-              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('docs-uat')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-emerald-300 hover:bg-emerald-50 transition"
+              >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
                   UAT
                 </span>
-              </div>
-              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('docs-retrospectives')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-emerald-300 hover:bg-emerald-50 transition"
+              >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
                   Retrospectives
                 </span>
-              </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -1485,6 +1620,7 @@
             id="demo-right-pane"
           >
             <div
+              id="demo-right-header"
               class="text-slate-500 mb-4 border-b border-slate-800 pb-2 flex justify-between"
             >
               <span id="demo-right-title">Console Output</span>
@@ -1880,6 +2016,7 @@
       const demoGrid = document.getElementById("demo-grid");
       const demoRightPane = document.getElementById("demo-right-pane");
       const demoRightTitle = document.getElementById("demo-right-title");
+      const demoRightHeader = document.getElementById("demo-right-header");
       let apiMonitorInterval;
 
       const demos = {
@@ -1951,6 +2088,41 @@
           type: "devops",
           url: "https://github.com/murdadrum/QAPI/actions/workflows/deploy.yml",
         },
+        "docs-test-scripts": {
+          title: "Manual Test Scripts",
+          type: "docs",
+          docId: "docs-test-scripts",
+        },
+        "docs-requirements": {
+          title: "Requirements",
+          type: "docs",
+          docId: "docs-requirements",
+        },
+        "docs-user-stories": {
+          title: "User Stories",
+          type: "docs",
+          docId: "docs-user-stories",
+        },
+        "docs-rtm": {
+          title: "RTM",
+          type: "docs",
+          docId: "docs-rtm",
+        },
+        "docs-uat": {
+          title: "UAT",
+          type: "docs",
+          docId: "docs-uat",
+        },
+        "docs-bug-tracking": {
+          title: "Bug Tracking",
+          type: "docs",
+          docId: "docs-bug-tracking",
+        },
+        "docs-retrospectives": {
+          title: "Retrospectives",
+          type: "docs",
+          docId: "docs-retrospectives",
+        },
       };
 
       function openDemo(type) {
@@ -1959,6 +2131,11 @@
         document.getElementById("demo-title").innerText = data.title;
         demoLogs.innerHTML = "";
         clearInterval(apiMonitorInterval);
+        if (demoRightHeader) demoRightHeader.classList.remove("hidden");
+        if (demoGrid) {
+          demoGrid.classList.remove("docs-wide");
+          demoGrid.classList.remove("docs-manual");
+        }
 
         // Show Modal
         demoModal.classList.remove("hidden");
@@ -1983,6 +2160,9 @@
         } else if (data.type === "devops") {
           setDemoLayout("split");
           setupDevopsDashboard(data);
+        } else if (data.type === "docs") {
+          setDemoLayout("split");
+          setupDocsScripts(data.docId);
         }
       }
 
@@ -2141,9 +2321,9 @@
                         </div>
                         <div class="bg-slate-800 p-3 rounded border border-slate-700">
                             <div class="text-slate-500 text-xs">Target</div>
-                            <a id="qa-target-link" class="text-slate-200 font-bold underline hover:text-white" href="${data.target}" target="_blank">${targetLabel}</a>
+                            <a id="qa-target-link" class="block w-full truncate text-slate-200 font-bold underline hover:text-white" href="${data.target}" target="_blank" rel="noopener" title="${data.target}">${targetLabel}</a>
                         </div>
-                        <div class="bg-slate-800 p-3 rounded border border-slate-700">
+                        <div class="bg-slate-800 p-3 rounded border border-slate-700 col-span-2">
                             <div class="text-slate-500 text-xs">Trace Viewer</div>
                             <a id="qa-trace-link" class="text-slate-200 font-bold underline hover:text-white" href="${data.url}" target="_blank">Loading...</a>
                             <div id="qa-trace-note" class="text-slate-500 text-[10px]">Latest run traces</div>
@@ -2224,6 +2404,920 @@
         demoStatus.innerHTML =
           '<i class="fa-solid fa-circle-notch fa-spin"></i> Placeholder';
         demoStatus.className = "text-blue-400 font-bold";
+      }
+
+      const manualScripts = [
+        {
+          id: "crossbrowser-e2e",
+          title: "Crossbrowser E2E",
+          sourceTests: [
+            "test_homepage_title",
+            "test_hero_headline",
+            "test_crossbrowser_e2e_modal_opens",
+          ],
+          preconditions: [
+            "Site is reachable at BASE_URL",
+            "JavaScript enabled in browser",
+            "Default viewport: 1280x720 unless specified",
+          ],
+          positive: [
+            {
+              action: "Navigate to BASE_URL",
+              expected: "Homepage loads and title contains 'Josh'",
+            },
+            {
+              action: "Verify hero headline text",
+              expected: "Both 'Break the Code.' and 'Not the User.' are visible",
+            },
+            {
+              action: "Click 'Crossbrowser E2E' chip",
+              expected: "QA dashboard modal opens with suite title",
+            },
+            {
+              action: "Open Featured Projects modal via Demo button",
+              expected: "Iframe loads and modal title matches project card",
+            },
+          ],
+          negative: [
+            {
+              action: "Open a Demo button with missing URL",
+              expected: "Modal shows 'Demo coming soon' placeholder",
+            },
+            {
+              action: "Toggle filters rapidly",
+              expected: "No console errors; grid updates cleanly",
+            },
+          ],
+          edge: [
+            {
+              action: "Test at 320px width",
+              expected: "Navigation remains usable; no horizontal scroll",
+            },
+            {
+              action: "Refresh while modal is open",
+              expected: "Page loads without broken state",
+            },
+          ],
+        },
+        {
+          id: "chat-assistant",
+          title: "Chat Assistant",
+          sourceTests: ["test_chat_assistant_suite"],
+          preconditions: ["Site is reachable at BASE_URL"],
+          positive: [
+            {
+              action: "Open the chat assistant widget",
+              expected: "Chat panel becomes visible",
+            },
+            {
+              action: "Send a message: 'hello'",
+              expected: "Assistant responds with a greeting",
+            },
+            {
+              action: "Ask about skills",
+              expected: "Response includes skills/tools list",
+            },
+          ],
+          negative: [
+            {
+              action: "Send empty message",
+              expected: "Message is not sent; no error displayed",
+            },
+            {
+              action: "Send a long random string",
+              expected: "Assistant returns fallback response",
+            },
+          ],
+          edge: [
+            {
+              action: "Open/close widget repeatedly",
+              expected: "No UI glitches or duplicated messages",
+            },
+          ],
+        },
+        {
+          id: "form-submit",
+          title: "Form Submit",
+          sourceTests: ["test_form_submit_suite"],
+          preconditions: ["Site is reachable at BASE_URL"],
+          positive: [
+            {
+              action: "Fill Name, Email, and Message fields",
+              expected: "Fields accept input",
+            },
+            {
+              action: "Click 'Send Message'",
+              expected: "Success alert appears",
+            },
+          ],
+          negative: [
+            {
+              action: "Leave Email blank and submit",
+              expected: "Browser validation blocks submit",
+            },
+            {
+              action: "Enter invalid email format",
+              expected: "Browser validation blocks submit",
+            },
+          ],
+          edge: [
+            {
+              action: "Paste long message (500+ chars)",
+              expected: "Textarea accepts input without layout break",
+            },
+          ],
+        },
+        {
+          id: "modals",
+          title: "Modals",
+          sourceTests: ["test_modals_suite"],
+          preconditions: ["Site is reachable at BASE_URL"],
+          positive: [
+            {
+              action: "Click a project 'Demo' button",
+              expected: "Project demo modal opens",
+            },
+            {
+              action: "Validate modal title",
+              expected: "Title matches the clicked project card",
+            },
+            {
+              action: "Click the close (X) button",
+              expected: "Modal closes",
+            },
+          ],
+          negative: [
+            {
+              action: "Click outside modal (backdrop)",
+              expected: "Modal closes without error",
+            },
+          ],
+          edge: [
+            {
+              action: "Press ESC key",
+              expected: "Modal closes (if open)",
+            },
+          ],
+        },
+        {
+          id: "links-downloads",
+          title: "Links + Downloads",
+          sourceTests: ["test_links_downloads_suite"],
+          preconditions: ["Site is reachable at BASE_URL"],
+          positive: [
+            {
+              action: "Scan external links on the page",
+              expected: "At least one http(s) link exists",
+            },
+            {
+              action: "Validate link hrefs",
+              expected: "Each href starts with http",
+            },
+          ],
+          negative: [
+            {
+              action: "Check for empty hrefs",
+              expected: "No external link has empty href",
+            },
+          ],
+          edge: [
+            {
+              action: "Open external links in new tab",
+              expected: "Target opens without blocking UI",
+            },
+          ],
+        },
+      ];
+
+      function buildManualMarkdown(script) {
+        const lines = [];
+        lines.push(`# ${script.title}`);
+        lines.push("");
+        lines.push(`**Source Tests:** ${script.sourceTests.join(", ")}`);
+        lines.push("");
+        lines.push("## Preconditions");
+        script.preconditions.forEach((p) => lines.push(`- ${p}`));
+        lines.push("");
+        if (script.positive?.length) {
+          lines.push("## Positive Tests");
+          script.positive.forEach((step, idx) => {
+            lines.push(`${idx + 1}. **Action:** ${step.action}`);
+            lines.push(`   **Expected:** ${step.expected}`);
+          });
+          lines.push("");
+        }
+        if (script.negative?.length) {
+          lines.push("## Negative Tests");
+          script.negative.forEach((step, idx) => {
+            lines.push(`${idx + 1}. **Action:** ${step.action}`);
+            lines.push(`   **Expected:** ${step.expected}`);
+          });
+          lines.push("");
+        }
+        if (script.edge?.length) {
+          lines.push("## Edge Cases");
+          script.edge.forEach((step, idx) => {
+            lines.push(`${idx + 1}. **Action:** ${step.action}`);
+            lines.push(`   **Expected:** ${step.expected}`);
+          });
+          lines.push("");
+        }
+        lines.push("");
+        lines.push("## Metadata");
+        lines.push(`- Generated from Playwright suite`);
+        return lines.join("\n");
+      }
+
+      function buildManualJson(script) {
+        return JSON.stringify(
+          {
+            title: script.title,
+            sourceTests: script.sourceTests,
+            preconditions: script.preconditions,
+            positive: script.positive || [],
+            negative: script.negative || [],
+            edge: script.edge || [],
+            generatedFrom: "Playwright",
+          },
+          null,
+          2,
+        );
+      }
+
+      function buildManualCsv(script) {
+        const rows = [];
+        const pushSection = (label, steps) => {
+          (steps || []).forEach((step, idx) => {
+            rows.push({
+              Section: label,
+              Step: idx + 1,
+              Action: step.action,
+              Expected: step.expected,
+            });
+          });
+        };
+        pushSection("Positive", script.positive);
+        pushSection("Negative", script.negative);
+        pushSection("Edge", script.edge);
+        return buildCsv(["Section", "Step", "Action", "Expected"], rows);
+      }
+
+      const docsCatalog = {
+        requirements: {
+          title: "Requirements",
+          columns: ["ID", "Type", "Priority", "Status", "Title", "Description"],
+          rows: [
+            {
+              ID: "REQ-001",
+              Type: "Functional",
+              Priority: "High",
+              Status: "Approved",
+              Title: "Responsive Layout",
+              Description: "Site renders correctly on mobile, tablet, desktop.",
+            },
+            {
+              ID: "REQ-002",
+              Type: "Functional",
+              Priority: "High",
+              Status: "Approved",
+              Title: "Project Demo Modals",
+              Description: "Demo buttons open modal with embedded iframe.",
+            },
+            {
+              ID: "REQ-003",
+              Type: "Functional",
+              Priority: "Medium",
+              Status: "Approved",
+              Title: "Filter Projects",
+              Description: "Category filters show/hide project cards.",
+            },
+            {
+              ID: "REQ-004",
+              Type: "Functional",
+              Priority: "High",
+              Status: "Approved",
+              Title: "Contact Form",
+              Description: "Form accepts name/email/message and confirms submit.",
+            },
+            {
+              ID: "REQ-005",
+              Type: "Non-Functional",
+              Priority: "Medium",
+              Status: "Approved",
+              Title: "Theme Toggle",
+              Description: "Light/Dark toggle persists user preference.",
+            },
+            {
+              ID: "REQ-006",
+              Type: "Functional",
+              Priority: "Medium",
+              Status: "Approved",
+              Title: "Chat Assistant",
+              Description: "Interactive assistant responds to user prompts.",
+            },
+          ],
+        },
+        userStories: {
+          title: "User Stories",
+          columns: [
+            "ID",
+            "Role",
+            "Goal",
+            "Benefit",
+            "Acceptance Criteria",
+            "Priority",
+            "Status",
+          ],
+          rows: [
+            {
+              ID: "US-001",
+              Role: "Visitor",
+              Goal: "view projects",
+              Benefit: "evaluate QA expertise quickly",
+              "Acceptance Criteria": "Project cards filter and open demos.",
+              Priority: "High",
+              Status: "Done",
+            },
+            {
+              ID: "US-002",
+              Role: "Recruiter",
+              Goal: "contact Josh",
+              Benefit: "start a conversation",
+              "Acceptance Criteria": "Contact form submits and confirms.",
+              Priority: "High",
+              Status: "Done",
+            },
+            {
+              ID: "US-003",
+              Role: "Hiring Manager",
+              Goal: "see QA workflow",
+              Benefit: "trust process maturity",
+              "Acceptance Criteria": "QA dashboards show live status.",
+              Priority: "High",
+              Status: "In Progress",
+            },
+            {
+              ID: "US-004",
+              Role: "Engineer",
+              Goal: "review tech stack",
+              Benefit: "align on tooling",
+              "Acceptance Criteria": "Tech chips show stack categories.",
+              Priority: "Medium",
+              Status: "Done",
+            },
+          ],
+        },
+        rtm: {
+          title: "RTM",
+          columns: ["REQ ID", "Story ID", "Test Suite", "Coverage", "Status"],
+          rows: [
+            {
+              "REQ ID": "REQ-001",
+              "Story ID": "US-001",
+              "Test Suite": "Crossbrowser E2E",
+              Coverage: "Automated",
+              Status: "Passing",
+            },
+            {
+              "REQ ID": "REQ-002",
+              "Story ID": "US-001",
+              "Test Suite": "Modals",
+              Coverage: "Automated",
+              Status: "Passing",
+            },
+            {
+              "REQ ID": "REQ-004",
+              "Story ID": "US-002",
+              "Test Suite": "Form Submit",
+              Coverage: "Automated",
+              Status: "Passing",
+            },
+            {
+              "REQ ID": "REQ-006",
+              "Story ID": "US-003",
+              "Test Suite": "Chat Assistant",
+              Coverage: "Automated",
+              Status: "Passing",
+            },
+          ],
+        },
+        uat: {
+          title: "UAT",
+          columns: ["UAT ID", "Scenario", "Steps", "Expected", "Status", "Notes"],
+          rows: [
+            {
+              "UAT ID": "UAT-01",
+              Scenario: "Browse Projects",
+              Steps: "Open Projects section; filter by Automation",
+              Expected: "Relevant cards shown",
+              Status: "Pass",
+              Notes: "",
+            },
+            {
+              "UAT ID": "UAT-02",
+              Scenario: "Open Demo Modal",
+              Steps: "Click Demo on a project card",
+              Expected: "Modal opens with live embed",
+              Status: "Pass",
+              Notes: "",
+            },
+            {
+              "UAT ID": "UAT-03",
+              Scenario: "Submit Contact Form",
+              Steps: "Fill fields and submit",
+              Expected: "Confirmation alert displayed",
+              Status: "Pass",
+              Notes: "",
+            },
+            {
+              "UAT ID": "UAT-04",
+              Scenario: "Toggle Theme",
+              Steps: "Toggle light/dark",
+              Expected: "Theme updates and persists",
+              Status: "Pass",
+              Notes: "",
+            },
+          ],
+        },
+        bugTracking: {
+          title: "Bug Tracking",
+          columns: [
+            "Issue Type",
+            "Summary",
+            "Priority",
+            "Severity",
+            "Description",
+            "Steps to Reproduce",
+            "Expected Result",
+            "Actual Result",
+            "Environment",
+            "Labels",
+          ],
+          rows: [
+            {
+              "Issue Type": "Bug",
+              Summary: "Project demo modal closes on scroll",
+              Priority: "High",
+              Severity: "Major",
+              Description: "Modal unexpectedly closes when scrolling.",
+              "Steps to Reproduce": "Open project demo modal and scroll.",
+              "Expected Result": "Modal stays open.",
+              "Actual Result": "Modal closes.",
+              Environment: "Chrome 121 / macOS",
+              Labels: "modal,ui",
+            },
+            {
+              "Issue Type": "Bug",
+              Summary: "Chat assistant response delayed",
+              Priority: "Medium",
+              Severity: "Minor",
+              Description: "Bot response delay > 3s.",
+              "Steps to Reproduce": "Open chat and send 'hello'.",
+              "Expected Result": "Response within 2s.",
+              "Actual Result": "Response after 4s.",
+              Environment: "Safari 17",
+              Labels: "chat,performance",
+            },
+            {
+              "Issue Type": "Bug",
+              Summary: "Theme toggle icon not updating",
+              Priority: "Low",
+              Severity: "Minor",
+              Description: "Icon stays moon after switching to dark.",
+              "Steps to Reproduce": "Toggle theme twice.",
+              "Expected Result": "Icon reflects current theme.",
+              "Actual Result": "Icon not updated.",
+              Environment: "Firefox 122",
+              Labels: "theme,ui",
+            },
+            {
+              "Issue Type": "Bug",
+              Summary: "Filter buttons overlap on small screens",
+              Priority: "Medium",
+              Severity: "Major",
+              Description: "Filter buttons wrap but overlap at 320px.",
+              "Steps to Reproduce": "Resize viewport to 320px.",
+              "Expected Result": "Buttons stack without overlap.",
+              "Actual Result": "Buttons overlap.",
+              Environment: "Chrome 121",
+              Labels: "responsive,ui",
+            },
+            {
+              "Issue Type": "Bug",
+              Summary: "Contact form allows invalid email",
+              Priority: "High",
+              Severity: "Major",
+              Description: "Email validation bypassed when pasting.",
+              "Steps to Reproduce": "Paste 'abc' into email, submit.",
+              "Expected Result": "Form blocks submit.",
+              "Actual Result": "Form submits.",
+              Environment: "Edge 121",
+              Labels: "form,validation",
+            },
+            {
+              "Issue Type": "Bug",
+              Summary: "Demo iframe blank on first open",
+              Priority: "Medium",
+              Severity: "Major",
+              Description: "Iframe source not set on first click.",
+              "Steps to Reproduce": "Click Demo on first project.",
+              "Expected Result": "Iframe loads content.",
+              "Actual Result": "Blank iframe.",
+              Environment: "Chrome 121",
+              Labels: "iframe,modal",
+            },
+            {
+              "Issue Type": "Bug",
+              Summary: "Mobile nav remains open after selection",
+              Priority: "Low",
+              Severity: "Minor",
+              Description: "Mobile menu does not close on link click.",
+              "Steps to Reproduce": "Open menu, click a link.",
+              "Expected Result": "Menu closes.",
+              "Actual Result": "Menu stays open.",
+              Environment: "iPhone Safari",
+              Labels: "mobile,nav",
+            },
+            {
+              "Issue Type": "Bug",
+              Summary: "Hero CTA shadow flickers",
+              Priority: "Low",
+              Severity: "Trivial",
+              Description: "Button shadow flickers on hover.",
+              "Steps to Reproduce": "Hover CTA repeatedly.",
+              "Expected Result": "Smooth shadow transition.",
+              "Actual Result": "Shadow flickers.",
+              Environment: "Chrome 121",
+              Labels: "ui,hover",
+            },
+            {
+              "Issue Type": "Bug",
+              Summary: "Docs modal copy button intermittently fails",
+              Priority: "Medium",
+              Severity: "Minor",
+              Description: "Clipboard write fails without fallback.",
+              "Steps to Reproduce": "Open docs modal, click Copy.",
+              "Expected Result": "Content copied.",
+              "Actual Result": "No clipboard update.",
+              Environment: "Firefox 122",
+              Labels: "docs,clipboard",
+            },
+            {
+              "Issue Type": "Bug",
+              Summary: "Project filter resets on refresh",
+              Priority: "Low",
+              Severity: "Minor",
+              Description: "Filter state not persisted.",
+              "Steps to Reproduce": "Select filter, refresh page.",
+              "Expected Result": "Filter persists (optional).",
+              "Actual Result": "Resets to All.",
+              Environment: "Any",
+              Labels: "filter,ux",
+            },
+            {
+              "Issue Type": "Bug",
+              Summary: "Chat input allows only 1 char width on iOS",
+              Priority: "Medium",
+              Severity: "Major",
+              Description: "Input renders too narrow on iOS.",
+              "Steps to Reproduce": "Open chat on iOS.",
+              "Expected Result": "Full width input.",
+              "Actual Result": "1 char width.",
+              Environment: "iOS 17 Safari",
+              Labels: "chat,ios",
+            },
+            {
+              "Issue Type": "Bug",
+              Summary: "Dark theme contrast fails on badges",
+              Priority: "Medium",
+              Severity: "Minor",
+              Description: "Badges low contrast in dark theme.",
+              "Steps to Reproduce": "Toggle dark theme.",
+              "Expected Result": "Readable badges.",
+              "Actual Result": "Low contrast.",
+              Environment: "Any",
+              Labels: "theme,a11y",
+            },
+          ],
+        },
+        retrospectives: {
+          title: "Retrospectives",
+          columns: [
+            "Deployment",
+            "Date",
+            "Status",
+            "Summary",
+            "Wins",
+            "Issues",
+            "Action Items",
+            "Duration",
+          ],
+          rows: [
+            {
+              Deployment: "Deploy to GitHub Pages",
+              Date: "—",
+              Status: "—",
+              Summary: "Awaiting deployment data",
+              Wins: "—",
+              Issues: "—",
+              "Action Items": "—",
+              Duration: "—",
+            },
+          ],
+          dynamic: true,
+          lastUpdated: 0,
+        },
+      };
+
+      const docsRegistry = [
+        { id: "docs-test-scripts", label: "Test Scripts", kind: "manual" },
+        { id: "docs-requirements", label: "Requirements", kind: "table", key: "requirements" },
+        { id: "docs-user-stories", label: "User Stories", kind: "table", key: "userStories" },
+        { id: "docs-rtm", label: "RTM", kind: "table", key: "rtm" },
+        { id: "docs-uat", label: "UAT", kind: "table", key: "uat" },
+        { id: "docs-bug-tracking", label: "Bug Tracking", kind: "table", key: "bugTracking" },
+        { id: "docs-retrospectives", label: "Retrospectives", kind: "table", key: "retrospectives" },
+      ];
+
+      function escapeCsv(value) {
+        if (value === null || value === undefined) return "";
+        const str = String(value);
+        if (/[",\n]/.test(str)) {
+          return `"${str.replace(/"/g, '""')}"`;
+        }
+        return str;
+      }
+
+      function buildCsv(columns, rows) {
+        const header = columns.map(escapeCsv).join(",");
+        const body = rows
+          .map((row) => columns.map((c) => escapeCsv(row[c] ?? "")).join(","))
+          .join("\n");
+        return `${header}\n${body}`;
+      }
+
+      function buildTableMarkdown(doc) {
+        const lines = [];
+        lines.push(`# ${doc.title}`);
+        lines.push("");
+        lines.push(`| ${doc.columns.join(" | ")} |`);
+        lines.push(`| ${doc.columns.map(() => "---").join(" | ")} |`);
+        doc.rows.forEach((row) => {
+          lines.push(
+            `| ${doc.columns.map((c) => String(row[c] ?? "")).join(" | ")} |`,
+          );
+        });
+        return lines.join("\n");
+      }
+
+      function buildTableJson(doc) {
+        return JSON.stringify(
+          {
+            title: doc.title,
+            columns: doc.columns,
+            rows: doc.rows,
+          },
+          null,
+          2,
+        );
+      }
+
+      function setupDocsScripts(initialDocId) {
+        if (demoRightHeader) demoRightHeader.classList.add("hidden");
+        if (demoRightTitle) demoRightTitle.innerText = "Controls";
+
+        demoLeftPane.innerHTML = `
+                <div class="h-full w-full">
+                    <pre id="docs-content" class="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap"></pre>
+                </div>
+            `;
+
+        demoLogs.innerHTML = `
+                <div class="space-y-3">
+                    <div id="docs-document-wrap">
+                      <label id="docs-document-label" class="text-xs uppercase tracking-wider text-slate-400">Document</label>
+                      <select id="docs-document" class="mt-1 w-full bg-slate-800 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm"></select>
+                    </div>
+                    <div id="docs-suite-wrap" class="hidden">
+                      <label class="text-xs uppercase tracking-wider text-slate-400">Suite</label>
+                      <select id="docs-suite" class="mt-1 w-full bg-slate-800 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm"></select>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3 justify-between">
+                      <div class="flex items-center gap-2 text-xs uppercase tracking-wider text-slate-400">
+                        <span>Controls</span>
+                        <span class="flex items-center gap-1 text-green-500 font-semibold normal-case">
+                          <i class="fa-solid fa-circle-check"></i> Ready
+                        </span>
+                      </div>
+                      <div class="flex flex-wrap items-center gap-2">
+                        <button id="docs-format-md" class="px-3 py-1 rounded bg-slate-800 text-slate-200 border border-slate-700 text-xs font-semibold">Markdown</button>
+                        <button id="docs-format-csv" class="px-3 py-1 rounded bg-slate-800 text-slate-200 border border-slate-700 text-xs font-semibold">CSV</button>
+                        <button id="docs-format-json" class="px-3 py-1 rounded bg-slate-800 text-slate-200 border border-slate-700 text-xs font-semibold">JSON</button>
+                        <button id="docs-copy" class="px-3 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold">Copy</button>
+                        <button id="docs-download" class="px-3 py-1 rounded bg-slate-700 hover:bg-slate-600 text-slate-100 text-xs font-semibold">Download</button>
+                      </div>
+                    </div>
+                </div>
+            `;
+
+        const contentEl = document.getElementById("docs-content");
+        const docEl = document.getElementById("docs-document");
+        const docWrap = document.getElementById("docs-document-wrap");
+        const docLabel = document.getElementById("docs-document-label");
+        const suiteWrap = document.getElementById("docs-suite-wrap");
+        const suiteEl = document.getElementById("docs-suite");
+        const btnMd = document.getElementById("docs-format-md");
+        const btnCsv = document.getElementById("docs-format-csv");
+        const btnJson = document.getElementById("docs-format-json");
+        const btnCopy = document.getElementById("docs-copy");
+        const btnDownload = document.getElementById("docs-download");
+
+        let currentFormat = "md";
+        let currentDocId = initialDocId || "docs-test-scripts";
+        let currentSuiteId = manualScripts[0]?.id || "";
+
+        function getDoc() {
+          return (
+            docsRegistry.find((d) => d.id === currentDocId) ||
+            docsRegistry[0]
+          );
+        }
+
+        async function loadRetrospectives() {
+          const doc = docsCatalog.retrospectives;
+          if (Date.now() - doc.lastUpdated < 5 * 60 * 1000) return;
+          try {
+            const res = await fetch(
+              "https://api.github.com/repos/murdadrum/QAPI/actions/workflows/deploy.yml/runs?per_page=5",
+            );
+            if (!res.ok) throw new Error("Failed to load deployments");
+            const data = await res.json();
+            doc.rows =
+              (data.workflow_runs || []).map((run) => {
+                const status = run.conclusion || run.status || "unknown";
+                const started = run.run_started_at
+                  ? new Date(run.run_started_at)
+                  : null;
+                const updated = run.updated_at ? new Date(run.updated_at) : null;
+                const duration =
+                  started && updated
+                    ? formatDuration(updated - started)
+                    : "--";
+                return {
+                  Deployment: run.name || "Deploy to GitHub Pages",
+                  Date: run.created_at
+                    ? new Date(run.created_at).toLocaleString()
+                    : "--",
+                  Status: status,
+                  Summary: `Deployment ${status}`,
+                  Wins: status === "success" ? "Clean deploy" : "—",
+                  Issues: status === "success" ? "None" : "Workflow error",
+                  "Action Items":
+                    status === "success"
+                      ? "Monitor logs/metrics"
+                      : "Fix failing step and re-run",
+                  Duration: duration,
+                };
+              }) || doc.rows;
+            doc.lastUpdated = Date.now();
+          } catch (_) {
+            doc.rows = doc.rows.length
+              ? doc.rows
+              : [
+                  {
+                    Deployment: "Deploy to GitHub Pages",
+                    Date: "—",
+                    Status: "—",
+                    Summary: "Unable to load deployments",
+                    Wins: "—",
+                    Issues: "—",
+                    "Action Items": "—",
+                    Duration: "—",
+                  },
+                ];
+          }
+        }
+
+        function syncControls() {
+          const doc = getDoc();
+          if (demoGrid) {
+            demoGrid.classList.toggle("docs-wide", doc.kind !== "manual");
+            demoGrid.classList.toggle("docs-manual", doc.kind === "manual");
+          }
+          if (doc.kind === "manual") {
+            if (docWrap) docWrap.classList.remove("hidden");
+            if (suiteWrap) suiteWrap.classList.add("hidden");
+            if (docLabel) docLabel.textContent = "Test Suite";
+            if (docEl) {
+              docEl.innerHTML = manualScripts
+                .map((s) => `<option value="${s.id}">${s.title}</option>`)
+                .join("");
+              if (!manualScripts.find((s) => s.id === currentSuiteId)) {
+                currentSuiteId = manualScripts[0]?.id || "";
+              }
+              docEl.value = currentSuiteId;
+            }
+          } else {
+            if (docWrap) docWrap.classList.add("hidden");
+            if (suiteWrap) suiteWrap.classList.add("hidden");
+            if (docLabel) docLabel.textContent = "Document";
+          }
+        }
+
+        function render() {
+          const doc = getDoc();
+          syncControls();
+          if (doc.kind === "manual") {
+            if (docEl && docEl.value) currentSuiteId = docEl.value;
+            const script =
+              manualScripts.find((s) => s.id === currentSuiteId) ||
+              manualScripts[0];
+            const text =
+              currentFormat === "json"
+                ? buildManualJson(script)
+                : currentFormat === "csv"
+                ? buildManualCsv(script)
+                : buildManualMarkdown(script);
+            if (contentEl) contentEl.textContent = text;
+          } else {
+            const tableDoc = docsCatalog[doc.key];
+            if (tableDoc.dynamic) {
+              loadRetrospectives().then(render);
+            }
+            const text =
+              currentFormat === "json"
+                ? buildTableJson(tableDoc)
+                : currentFormat === "csv"
+                ? buildCsv(tableDoc.columns, tableDoc.rows)
+                : buildTableMarkdown(tableDoc);
+            if (contentEl) contentEl.textContent = text;
+          }
+
+          btnMd.classList.toggle("bg-blue-600", currentFormat === "md");
+          btnMd.classList.toggle("text-white", currentFormat === "md");
+          btnCsv.classList.toggle("bg-blue-600", currentFormat === "csv");
+          btnCsv.classList.toggle("text-white", currentFormat === "csv");
+          btnJson.classList.toggle("bg-blue-600", currentFormat === "json");
+          btnJson.classList.toggle("text-white", currentFormat === "json");
+        }
+
+        function downloadFile() {
+          const doc = getDoc();
+          const text = contentEl ? contentEl.textContent || "" : "";
+          const ext = currentFormat;
+          const fileName = `${doc.id}.${ext}`;
+          const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+        }
+
+        function copyToClipboard() {
+          const text = contentEl ? contentEl.textContent || "" : "";
+          if (!text) return;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text);
+          } else {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            textarea.remove();
+          }
+        }
+
+        docEl.addEventListener("change", () => {
+          if (getDoc().kind === "manual") {
+            currentSuiteId = docEl.value;
+            currentFormat = "md";
+            render();
+          }
+        });
+        btnMd.addEventListener("click", () => {
+          currentFormat = "md";
+          render();
+        });
+        btnCsv.addEventListener("click", () => {
+          currentFormat = "csv";
+          render();
+        });
+        btnJson.addEventListener("click", () => {
+          currentFormat = "json";
+          render();
+        });
+        btnCopy.addEventListener("click", copyToClipboard);
+        btnDownload.addEventListener("click", downloadFile);
+
+        render();
+
+        demoStatus.innerHTML = '<i class="fa-solid fa-circle-check"></i> Ready';
+        demoStatus.className = "text-green-500 font-bold";
       }
 
       async function loadAutomationStatus(data) {

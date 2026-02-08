@@ -9,6 +9,37 @@ npm install
 npm run dev
 ```
 
+## Playwright + Pytest (local E2E)
+
+The QA workflows run Playwright via pytest. To run the same suites locally:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -U pip
+pip install -r requirements.txt
+python -m playwright install --with-deps
+```
+
+Run the full suite against the live dev site:
+
+```bash
+BASE_URL=https://murdadrum.github.io/QAPI/ pytest -q
+```
+
+Run a specific suite (examples):
+
+```bash
+BASE_URL=https://murdadrum.github.io/QAPI/ pytest -q -k test_modals_suite
+BASE_URL=https://murdadrum.github.io/QAPI/ pytest -q -k test_form_submit_suite
+```
+
+Traces are saved to `traces/` on failure; you can open them with:
+
+```bash
+python -m playwright show-trace traces/<trace-name>.zip
+```
+
 ## Deploy to GitHub Pages
 
 This repo is configured for GitHub Pages via Actions.
