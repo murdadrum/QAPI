@@ -1,6 +1,7 @@
 import { Activity, Clock, AlertCircle, CheckCircle, Play, Terminal } from 'lucide-react';
 import { ApiProject } from '../data/apis';
 import { StatusGraph } from './StatusGraph';
+import { A11yInsights } from './A11yInsights';
 import { useState } from 'react';
 
 interface DashboardProps {
@@ -10,6 +11,7 @@ interface DashboardProps {
 export function Dashboard({ api }: DashboardProps) {
   const [isExecuting, setIsExecuting] = useState(false);
   const [response, setResponse] = useState<string>('');
+  const isA11yAuditor = api.id === 'a11y-api-auditor';
 
   const getStatusInfo = (status: ApiProject['status']) => {
     switch (status) {
@@ -46,16 +48,36 @@ export function Dashboard({ api }: DashboardProps) {
     
     // Simulate API execution
     setTimeout(() => {
-      const mockResponse = {
-        status: 200,
-        timestamp: new Date().toISOString(),
-        latency: api.latency,
-        data: {
-          message: `Successfully executed ${api.name}`,
-          apiId: api.id,
-          focus: api.focus
-        }
-      };
+      const mockResponse = isA11yAuditor
+        ? {
+            status: 200,
+            timestamp: new Date().toISOString(),
+            latency: api.latency,
+            audit: {
+              endpointsScanned: 24,
+              resourcesAudited: 412,
+              complianceScore: 92,
+              missingAltText: 10,
+              missingAriaLabels: 5,
+              missingRoles: 3,
+              topViolations: [
+                { rule: 'image.alt_text.required', count: 10 },
+                { rule: 'aria.label.required', count: 5 },
+                { rule: 'aria.role.missing', count: 3 }
+              ]
+            },
+            summary: 'Accessibility metadata is present for 92% of audited content.'
+          }
+        : {
+            status: 200,
+            timestamp: new Date().toISOString(),
+            latency: api.latency,
+            data: {
+              message: `Successfully executed ${api.name}`,
+              apiId: api.id,
+              focus: api.focus
+            }
+          };
       setResponse(JSON.stringify(mockResponse, null, 2));
       setIsExecuting(false);
     }, api.latency);
@@ -84,33 +106,112 @@ export function Dashboard({ api }: DashboardProps) {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3 mb-6 lg:mb-8">
-          <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
-            <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-blue-500/10">
-                <Clock className="w-4 h-4 text-blue-500" />
-              </div>
-              <div>
-                <div className="text-xs text-zinc-500 dark:text-zinc-400">Latency</div>
-                <div className="text-xl font-bold text-zinc-900 dark:text-white">
-                  {api.latency}ms
+          {isA11yAuditor ? (
+            <>
+              <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-purple-500/10">
+                    <CheckCircle className="w-4 h-4 text-purple-500" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400">Compliance</div>
+                    <div className="text-xl font-bold text-zinc-900 dark:text-white">92%</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+              <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-amber-500/10">
+                    <AlertCircle className="w-4 h-4 text-amber-500" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400">Missing Alt Text</div>
+                    <div className="text-xl font-bold text-zinc-900 dark:text-white">10</div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-blue-500/10">
+                    <Clock className="w-4 h-4 text-blue-500" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400">Audit Runtime</div>
+                    <div className="text-xl font-bold text-zinc-900 dark:text-white">65ms</div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-emerald-500/10">
+                    <Activity className="w-4 h-4 text-emerald-500" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400">Endpoints Audited</div>
+                    <div className="text-xl font-bold text-zinc-900 dark:text-white">24</div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-4 col-span-2">
+                <div className="text-xs text-zinc-500 dark:text-zinc-400 mb-3">
+                  Metadata Coverage
+                </div>
+                <div className="space-y-3 text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="text-zinc-600 dark:text-zinc-300">alt_text</span>
+                    <span className="text-zinc-700 dark:text-zinc-200 font-semibold">94%</span>
+                  </div>
+                  <div className="w-full bg-zinc-100 dark:bg-zinc-700 rounded-full h-2">
+                    <div className="bg-emerald-500 h-2 rounded-full w-[94%]"></div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-zinc-600 dark:text-zinc-300">aria-label</span>
+                    <span className="text-zinc-700 dark:text-zinc-200 font-semibold">91%</span>
+                  </div>
+                  <div className="w-full bg-zinc-100 dark:bg-zinc-700 rounded-full h-2">
+                    <div className="bg-blue-500 h-2 rounded-full w-[91%]"></div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-zinc-600 dark:text-zinc-300">role</span>
+                    <span className="text-zinc-700 dark:text-zinc-200 font-semibold">88%</span>
+                  </div>
+                  <div className="w-full bg-zinc-100 dark:bg-zinc-700 rounded-full h-2">
+                    <div className="bg-amber-500 h-2 rounded-full w-[88%]"></div>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-blue-500/10">
+                    <Clock className="w-4 h-4 text-blue-500" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400">Latency</div>
+                    <div className="text-xl font-bold text-zinc-900 dark:text-white">
+                      {api.latency}ms
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-          <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
-            <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-emerald-500/10">
-                <Activity className="w-4 h-4 text-emerald-500" />
-              </div>
-              <div>
-                <div className="text-xs text-zinc-500 dark:text-zinc-400">Uptime</div>
-                <div className="text-xl font-bold text-zinc-900 dark:text-white">
-                  {api.uptime}%
+              <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-emerald-500/10">
+                    <Activity className="w-4 h-4 text-emerald-500" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400">Uptime</div>
+                    <div className="text-xl font-bold text-zinc-900 dark:text-white">
+                      {api.uptime}%
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
 
           <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3 col-span-2">
             <div className="text-xs text-zinc-500 dark:text-zinc-400 mb-2">Technology Stack</div>
@@ -141,7 +242,7 @@ export function Dashboard({ api }: DashboardProps) {
         <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-4 lg:p-6 mb-6 lg:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
-              Execute API
+              {isA11yAuditor ? 'Run Accessibility Audit' : 'Execute API'}
             </h3>
             <button
               onClick={executeApi}
@@ -160,7 +261,7 @@ export function Dashboard({ api }: DashboardProps) {
               ) : (
                 <>
                   <Play className="w-4 h-4" />
-                  Execute Request
+                  {isA11yAuditor ? 'Run Audit' : 'Execute Request'}
                 </>
               )}
             </button>
@@ -182,9 +283,9 @@ export function Dashboard({ api }: DashboardProps) {
         {/* Monitoring Graphs */}
         <div>
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">
-            Real-Time Monitoring
+            {isA11yAuditor ? 'Accessibility Insights' : 'Real-Time Monitoring'}
           </h3>
-          <StatusGraph api={api} />
+          {isA11yAuditor ? <A11yInsights api={api} /> : <StatusGraph api={api} />}
         </div>
       </div>
     </div>

@@ -172,7 +172,7 @@ export const apiCategories: ApiCategory[] = [
         focus: 'UX and A11y',
         description: 'Automated tool checking if API responses include necessary metadata for screen readers.',
         tech: ['Node.js', 'JSON-schema validator'],
-        showcase: 'Ensuring accessibility starts at the data layer.',
+        showcase: 'Ensuring accessibility starts at the data layer, not just the CSS layer.',
         status: 'online',
         latency: 65,
         uptime: 99.4,
