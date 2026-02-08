@@ -260,6 +260,11 @@
               >Projects</a
             >
             <a
+              href="#dashboard"
+              class="text-slate-600 hover:text-qa-accent transition-colors font-medium"
+              >Dashboard</a
+            >
+            <a
               href="#process"
               class="text-slate-600 hover:text-qa-accent transition-colors font-medium"
               >Process</a
@@ -316,6 +321,16 @@
             href="#projects"
             class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-qa-accent rounded-md"
             >Projects</a
+          >
+          <a
+            href="#dashboard"
+            class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-qa-accent rounded-md"
+            >Dashboard</a
+          >
+          <a
+            href="#process"
+            class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-qa-accent rounded-md"
+            >Process</a
           >
           <a href="#contact" class="block px-3 py-2 text-qa-accent font-bold"
             >Contact</a
@@ -499,20 +514,25 @@
                 </span>
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
+            </div>
+          </div>
 
-              <button
-                onclick="openDemo('automation-emulation')"
-                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+          <!-- Emulation -->
+          <div
+            class="p-6 rounded-2xl bg-slate-50 hover:bg-purple-50 hover:shadow-lg transition-all border border-slate-100 group relative overflow-hidden"
+          >
+            <div class="flex items-center gap-4 mb-3">
+              <div
+                class="w-12 h-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform"
               >
-                <span class="inline-flex items-center gap-2">
-                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  Emulation
-                </span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
-              </button>
+                <i class="fa-solid fa-location-crosshairs"></i>
+              </div>
+              <h3 class="text-xl font-bold text-slate-800">Emulation</h3>
+            </div>
+            <div class="space-y-3">
               <button
                 onclick="openDemo('automation-emulation')"
-                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-purple-300 hover:bg-purple-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
@@ -522,7 +542,7 @@
               </button>
               <button
                 onclick="openDemo('automation-emulation')"
-                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-purple-300 hover:bg-purple-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
@@ -532,7 +552,7 @@
               </button>
               <button
                 onclick="openDemo('automation-emulation')"
-                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-purple-300 hover:bg-purple-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
@@ -542,7 +562,7 @@
               </button>
               <button
                 onclick="openDemo('automation-emulation')"
-                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-purple-300 hover:bg-purple-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
                   <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
@@ -550,54 +570,6 @@
                 </span>
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
-            </div>
-          </div>
-
-          <!-- API & Performance (Clickable) -->
-          <div
-            onclick="openDemo('api')"
-            class="cursor-pointer p-6 rounded-2xl bg-slate-50 hover:bg-purple-50 hover:shadow-lg transition-all border border-slate-100 group relative overflow-hidden"
-          >
-            <div
-              class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity text-purple-500 text-xs font-bold bg-purple-100 px-2 py-1 rounded-full"
-            >
-              <i class="fa-solid fa-chart-line mr-1"></i> DEMO
-            </div>
-            <div class="flex items-center gap-4 mb-3">
-              <div
-                class="w-12 h-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform"
-              >
-                <i class="fa-solid fa-gauge-high"></i>
-              </div>
-              <h3 class="text-xl font-bold text-slate-800">
-                API & Performance
-              </h3>
-            </div>
-            <div class="space-y-2">
-              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
-                <span class="inline-flex items-center gap-2">
-                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  Postman / Newman
-                </span>
-              </div>
-              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
-                <span class="inline-flex items-center gap-2">
-                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  JMeter / K6
-                </span>
-              </div>
-              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
-                <span class="inline-flex items-center gap-2">
-                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  REST Assured
-                </span>
-              </div>
-              <div class="inline-flex w-full items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700">
-                <span class="inline-flex items-center gap-2">
-                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
-                  GraphQL Testing
-                </span>
-              </div>
             </div>
           </div>
 
@@ -1300,6 +1272,38 @@
                 </a>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section id="dashboard" class="py-20 bg-white border-t border-slate-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+          <h2 class="text-3xl font-bold text-slate-900">Dashboard</h2>
+          <p class="mt-2 text-slate-600">
+            A prototype AI/UX API dashboard that turns reliability metrics
+            into user-impact signals and actionable priorities.
+          </p>
+        </div>
+        <div class="mt-8">
+          <div class="rounded-2xl border border-slate-200 bg-white shadow-lg overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50">
+              <div class="text-sm font-semibold text-slate-700">
+                AI/UX API Dashboard
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-500">
+                <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                Embedded Preview
+              </div>
+            </div>
+            <iframe
+              src="assets/AIUXUIAPI-Dashboard/dist/index.html"
+              title="AI/UX API Dashboard"
+              loading="lazy"
+              class="w-full h-[520px] md:h-[640px] lg:h-[700px] bg-white"
+            ></iframe>
           </div>
         </div>
       </div>
