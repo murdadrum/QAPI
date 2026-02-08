@@ -58,6 +58,16 @@ def test_crossbrowser_e2e_modal_opens():
         _close_with_trace(browser, context, trace_path)
 
 
+def test_emulation_suite_modal_opens():
+    with sync_playwright() as p:
+        browser, context, page, trace_path = _new_page(p, "emulation-suite")
+        page.goto(BASE_URL, wait_until="networkidle")
+        page.get_by_role("button", name="Emulation").first.click()
+        page.wait_for_selector("#demo-modal:not(.hidden)", timeout=5000)
+        assert page.locator("#demo-title").inner_text() == "Emulation Suite"
+        _close_with_trace(browser, context, trace_path)
+
+
 def test_modals_suite():
     with sync_playwright() as p:
         browser, context, page, trace_path = _new_page(p, "project-demo-modal")

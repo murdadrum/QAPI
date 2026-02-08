@@ -1,0 +1,19 @@
+Josh Barteaux — ATS Resume (Placeholder)
+
+Title: Senior QA Engineer
+Location: Remote
+Email: contact@joshbarteaux.com
+
+Summary
+- QA leader focused on automation, CI/CD, and user-first quality.
+
+Skills
+- Playwright, Pytest, Selenium, Cypress
+- API Testing: Postman, Newman, REST Assured
+- CI/CD: GitHub Actions, Jenkins
+
+Experience
+- Placeholder role entries for ATS formatted resume.
+
+Education
+- Placeholder

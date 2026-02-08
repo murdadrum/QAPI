@@ -411,9 +411,6 @@
               <h3 class="text-xl font-bold text-slate-800">Playwright</h3>
             </div>
             <div class="space-y-3">
-              <div class="text-xs uppercase tracking-wider text-slate-400">
-                Core Suites
-              </div>
               <button
                 onclick="openDemo('automation')"
                 class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
@@ -465,11 +462,18 @@
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
 
-              <div class="text-xs uppercase tracking-wider text-slate-400 pt-1">
-                Emulation
-              </div>
               <button
-                onclick="openDemo('automation-emulation-mobile')"
+                onclick="openDemo('automation-emulation')"
+                class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check text-green-500 text-xs"></i>
+                  Emulation
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
+              </button>
+              <button
+                onclick="openDemo('automation-emulation')"
                 class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
@@ -479,7 +483,7 @@
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
               <button
-                onclick="openDemo('automation-emulation-locale')"
+                onclick="openDemo('automation-emulation')"
                 class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
@@ -489,7 +493,7 @@
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
               <button
-                onclick="openDemo('automation-emulation-design')"
+                onclick="openDemo('automation-emulation')"
                 class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
@@ -499,7 +503,7 @@
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
               <button
-                onclick="openDemo('automation-emulation-offline')"
+                onclick="openDemo('automation-emulation')"
                 class="w-full inline-flex items-center justify-between gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-blue-300 hover:bg-blue-50 transition"
               >
                 <span class="inline-flex items-center gap-2">
@@ -1443,6 +1447,14 @@
             class="text-slate-400 hover:text-white transition text-2xl"
             ><i class="fa-brands fa-figma"></i
           ></a>
+          <a
+            href="assets/ats-resume-placeholder.txt"
+            download="Josh-Barteaux-ATS-Resume.txt"
+            class="text-slate-300 hover:text-white transition inline-flex items-center justify-center h-8 w-12 border border-slate-400 rounded-md text-[0.65rem] font-bold tracking-wider leading-none"
+            title="Download ATS Resume"
+          >
+            ATS
+          </a>
         </div>
         <p class="text-slate-600 text-sm mt-8">
           &copy; 2024 QA Josh. All tests passed.
@@ -2017,29 +2029,16 @@
           target: "https://murdadrum.github.io/QAPI/",
           suite: "Outbound Integrity",
         },
-        "automation-emulation-mobile": {
-          title: "Emulation: Mobile",
+        "automation-emulation": {
+          title: "Emulation Suite",
           type: "embed",
-          subtitle: "iPhone + Android profiles",
-          points: ["iPhone 15 + Pixel 8", "Touch + orientation", "Responsive layout checks"],
-        },
-        "automation-emulation-locale": {
-          title: "Emulation: Geolocation",
-          type: "embed",
-          subtitle: "Country + city targeting",
-          points: ["GPS spoofing", "Regional content", "Compliance prompts"],
-        },
-        "automation-emulation-design": {
-          title: "Emulation: Design",
-          type: "embed",
-          subtitle: "Light/Dark theme validation",
-          points: ["Theme toggle states", "Contrast checks", "Snapshot diffs"],
-        },
-        "automation-emulation-offline": {
-          title: "Emulation: Offline",
-          type: "embed",
-          subtitle: "Resilience + caching",
-          points: ["Offline banner UX", "Cache hits", "Retry/backoff flows"],
+          subtitle: "Device + environment simulation",
+          points: [
+            "Mobile: iPhone 15 + Pixel 8 profiles",
+            "Geolocation: multi-region coverage",
+            "Design: light/dark theme validation",
+            "Offline: cache, retry, and UX fallbacks",
+          ],
         },
         api: {
           title: "API Monitor & Runner",
@@ -2287,7 +2286,10 @@
                         </div>
                         <div class="bg-slate-800 p-3 rounded border border-slate-700 col-span-2">
                             <div class="text-slate-500 text-xs">Trace Viewer</div>
-                            <a id="qa-trace-link" class="text-slate-200 font-bold underline hover:text-white" href="${data.url}" target="_blank">Loading...</a>
+                            <div class="flex flex-wrap items-center gap-3">
+                              <a id="qa-trace-link" class="text-slate-200 font-bold underline hover:text-white" href="${data.url}" target="_blank">Download Trace</a>
+                              <a id="qa-trace-view" class="text-slate-300 text-xs underline hover:text-white" href="https://trace.playwright.dev" target="_blank">View Trace Viewer</a>
+                            </div>
                             <div id="qa-trace-note" class="text-slate-500 text-[10px]">Latest run traces</div>
                         </div>
                     </div>
@@ -3293,6 +3295,7 @@
         const commitEl = document.getElementById("qa-commit");
         const commitLinkEl = document.getElementById("qa-commit-link");
         const traceLinkEl = document.getElementById("qa-trace-link");
+        const traceViewEl = document.getElementById("qa-trace-view");
         const traceNoteEl = document.getElementById("qa-trace-note");
         const updatedEl = document.getElementById("qa-updated");
         const runLinkEl = document.getElementById("qa-run-link");
@@ -3300,6 +3303,13 @@
 
         const applyData = (payload) => {
           if (!payload) return;
+          const viewerUrl =
+            payload.traceViewerUrl ||
+            (payload.traceUrl
+              ? `https://trace.playwright.dev/?trace=${encodeURIComponent(
+                  payload.traceUrl,
+                )}`
+              : "https://trace.playwright.dev");
           const status = payload.status || "unknown";
           const statusLabel = status.replace(/_/g, " ");
           if (statusEl) {
@@ -3315,6 +3325,9 @@
             traceLinkEl.href = payload.traceUrl || payload.runUrl || data.url;
             traceLinkEl.innerText =
               payload.traceLabel || (payload.traceUrl ? "Download Trace" : "View Artifacts");
+          }
+          if (traceViewEl) {
+            traceViewEl.href = viewerUrl;
           }
           if (traceNoteEl) traceNoteEl.innerText = payload.traceNote || "Latest run traces";
           if (updatedEl) updatedEl.innerText = `Last updated: ${payload.updated || "--"}`;
@@ -3355,6 +3368,17 @@
 
         try {
           const workflowFile = data.url ? data.url.split("/").pop() : "qa-e2e.yml";
+          const publicTraceMap = {
+            "qa-e2e.yml": "qa-e2e.zip",
+            "qa-chat-assistant.yml": "qa-chat-assistant.zip",
+            "qa-form-submit.yml": "qa-form-submit.zip",
+            "qa-modals.yml": "qa-modals.zip",
+            "qa-links-downloads.yml": "qa-links-downloads.zip",
+          };
+          const publicTraceFile = publicTraceMap[workflowFile];
+          const publicTraceUrl = publicTraceFile
+            ? `https://murdadrum.github.io/QAPI/traces/${publicTraceFile}`
+            : null;
           const runRes = await fetch(
             `https://api.github.com/repos/murdadrum/QAPI/actions/workflows/${workflowFile}/runs?per_page=1`,
           );
@@ -3437,11 +3461,15 @@
               ? new Date(run.updated_at).toLocaleString()
               : "--",
             runUrl: run.html_url || data.url,
-            traceUrl: traceArtifact ? traceArtifact.archive_download_url : null,
-            traceLabel: traceArtifact
+            traceUrl: publicTraceUrl || (traceArtifact ? traceArtifact.archive_download_url : null),
+            traceLabel: publicTraceUrl
+              ? "Download latest trace"
+              : traceArtifact
               ? `Download ${traceArtifact.name.replace("playwright-traces-", "")} trace`
               : null,
-            traceNote: traceArtifact
+            traceNote: publicTraceUrl
+              ? "Open the .zip in trace.playwright.dev"
+              : traceArtifact
               ? "Open the .zip in trace.playwright.dev"
               : "No trace artifact found yet",
             jobs,
