@@ -551,11 +551,6 @@
                 <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 text-xs"></i>
               </button>
             </div>
-            <p
-              class="text-xs text-blue-400 mt-4 font-semibold opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              Click a chip to open a live embed &rarr;
-            </p>
           </div>
 
           <!-- API & Performance (Clickable) -->
@@ -604,11 +599,6 @@
                 </span>
               </div>
             </div>
-            <p
-              class="text-xs text-purple-500 mt-4 font-semibold opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              Click to view dashboard &rarr;
-            </p>
           </div>
 
           <!-- CI/CD & DevOps (Clickable) -->
@@ -686,11 +676,6 @@
               src="https://github.com/murdadrum/QAPI/actions/workflows/deploy.yml/badge.svg"
               alt="Deploy to GitHub Pages status"
             />
-            <p
-              class="text-xs text-orange-500 mt-4 font-semibold opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              Click to view deploy status &rarr;
-            </p>
           </div>
 
           <!-- Documentation -->
@@ -3145,9 +3130,12 @@
           );
         }
 
+        const retrospectivesTtlMs = 5 * 60 * 1000;
+        let retrospectivesLoading = false;
+
         async function loadRetrospectives() {
           const doc = docsCatalog.retrospectives;
-          if (Date.now() - doc.lastUpdated < 5 * 60 * 1000) return;
+          if (Date.now() - doc.lastUpdated < retrospectivesTtlMs) return;
           try {
             const res = await fetch(
               "https://api.github.com/repos/murdadrum/QAPI/actions/workflows/deploy.yml/runs?per_page=5",
@@ -3197,6 +3185,7 @@
                     Duration: "—",
                   },
                 ];
+            doc.lastUpdated = Date.now();
           }
         }
 
@@ -3244,7 +3233,20 @@
           } else {
             const tableDoc = docsCatalog[doc.key];
             if (tableDoc.dynamic) {
-              loadRetrospectives().then(render);
+              if (
+                !retrospectivesLoading &&
+                Date.now() - tableDoc.lastUpdated >= retrospectivesTtlMs
+              ) {
+                retrospectivesLoading = true;
+                loadRetrospectives()
+                  .then(() => {
+                    retrospectivesLoading = false;
+                    render();
+                  })
+                  .catch(() => {
+                    retrospectivesLoading = false;
+                  });
+              }
             }
             const text =
               currentFormat === "json"
