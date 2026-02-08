@@ -10,8 +10,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
   form-submit:
@@ -45,52 +43,3 @@ jobs:
           name: playwright-traces-form-submit
           path: traces/*.zip
           if-no-files-found: warn
-
-  publish-trace:
-    runs-on: ubuntu-latest
-    needs: form-submit
-    if: ${{ needs.form-submit.result == 'success' }}
-    concurrency:
-      group: pages
-      cancel-in-progress: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Download Playwright traces
-        uses: actions/download-artifact@v4
-        with:
-          name: playwright-traces-form-submit
-          path: traces
-
-      - name: Prepare trace bundle
-        run: |
-          mkdir -p dist/traces
-          TRACE_FILE=$(ls traces/contact-form*.zip 2>/dev/null | head -n 1)
-          if [ -z "$TRACE_FILE" ]; then
-            TRACE_FILE=$(ls traces/*.zip 2>/dev/null | head -n 1)
-          fi
-          if [ -n "$TRACE_FILE" ]; then
-            cp "$TRACE_FILE" "dist/traces/qa-form-submit.zip"
-          fi
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

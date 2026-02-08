@@ -82,13 +82,21 @@ jobs:
       - name: Prepare trace bundle
         run: |
           mkdir -p dist/traces
-          TRACE_FILE=$(ls traces/crossbrowser-e2e-modal*.zip 2>/dev/null | head -n 1)
-          if [ -z "$TRACE_FILE" ]; then
-            TRACE_FILE=$(ls traces/*.zip 2>/dev/null | head -n 1)
-          fi
-          if [ -n "$TRACE_FILE" ]; then
-            cp "$TRACE_FILE" "dist/traces/qa-e2e.zip"
-          fi
+          copy_trace() {
+            local pattern="$1"
+            local target="$2"
+            local trace
+            trace=$(ls traces/${pattern}*.zip 2>/dev/null | head -n 1)
+            if [ -n "$trace" ]; then
+              cp "$trace" "dist/traces/${target}"
+            fi
+          }
+
+          copy_trace "crossbrowser-e2e-modal" "qa-e2e.zip"
+          copy_trace "chat-assistant" "qa-chat-assistant.zip"
+          copy_trace "contact-form" "qa-form-submit.zip"
+          copy_trace "project-demo-modal" "qa-modals.zip"
+          copy_trace "links-downloads" "qa-links-downloads.zip"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
