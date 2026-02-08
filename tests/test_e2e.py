@@ -62,7 +62,10 @@ def test_emulation_suite_modal_opens():
     with sync_playwright() as p:
         browser, context, page, trace_path = _new_page(p, "emulation-suite")
         page.goto(BASE_URL, wait_until="networkidle")
-        page.get_by_role("button", name="Emulation").first.click()
+        emulation_card = page.get_by_role("heading", name="Emulation").locator(
+            "xpath=ancestor::div[contains(@class,'rounded-2xl')][1]"
+        )
+        emulation_card.get_by_role("button", name="Mobile").click()
         page.wait_for_selector("#demo-modal:not(.hidden)", timeout=5000)
         assert page.locator("#demo-title").inner_text() == "Emulation Suite"
         _close_with_trace(browser, context, trace_path)
@@ -130,4 +133,16 @@ def test_links_downloads_suite():
         for i in range(min(count, 10)):
             href = links.nth(i).get_attribute("href")
             assert href and href.startswith("http")
+        _close_with_trace(browser, context, trace_path)
+
+
+def test_dashboard_embed():
+    with sync_playwright() as p:
+        browser, context, page, trace_path = _new_page(p, "dashboard-embed")
+        page.goto(BASE_URL, wait_until="networkidle")
+        dashboard = page.locator("#dashboard")
+        assert dashboard.get_by_role("heading", name="Dashboard").is_visible()
+        iframe = dashboard.locator("iframe")
+        src = iframe.get_attribute("src")
+        assert src and "AIUXUIAPI-Dashboard/dist/index.html" in src
         _close_with_trace(browser, context, trace_path)
