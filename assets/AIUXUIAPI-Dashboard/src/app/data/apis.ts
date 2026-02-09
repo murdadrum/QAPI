@@ -176,6 +176,17 @@ export const apiCategories: ApiCategory[] = [
         status: 'online',
         latency: 65,
         uptime: 99.4,
+      },
+      {
+        id: 'a11y-api-auditor-terminal',
+        name: 'Accessibility API Auditor — Audit Terminal',
+        focus: 'UX and A11y',
+        description: 'Real-time audit engine with JSON schema validation and a screen-reader preview for API payloads.',
+        tech: ['Node.js', 'JSON Schema', 'Custom Validator', 'Screen Reader Simulator'],
+        showcase: 'Shift-left accessibility with a live audit terminal and a screen-reader simulator that reveals missing metadata.',
+        status: 'online',
+        latency: 110,
+        uptime: 99.1,
       }
     ]
   }

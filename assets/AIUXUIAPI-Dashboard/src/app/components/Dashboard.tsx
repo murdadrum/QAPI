@@ -2,6 +2,7 @@ import { Activity, Clock, AlertCircle, CheckCircle, Play, Terminal } from 'lucid
 import { ApiProject } from '../data/apis';
 import { StatusGraph } from './StatusGraph';
 import { A11yInsights } from './A11yInsights';
+import { A11yAuditPanel } from './A11yAuditPanel';
 import { useState } from 'react';
 
 interface DashboardProps {
@@ -11,7 +12,13 @@ interface DashboardProps {
 export function Dashboard({ api }: DashboardProps) {
   const [isExecuting, setIsExecuting] = useState(false);
   const [response, setResponse] = useState<string>('');
+  const [auditLogs, setAuditLogs] = useState<string[]>([]);
+  const [isAuditRunning, setIsAuditRunning] = useState(false);
+  const baseAuditUrl = 'https://murdadrum.github.io/QAPI/';
+  const mockGeneratorUrl = 'https://mockapi-gen-779175721635.us-west1.run.app';
+  const isMockGenerator = api.id === 'ai-mock-generator';
   const isA11yAuditor = api.id === 'a11y-api-auditor';
+  const isA11yTerminal = api.id === 'a11y-api-auditor-terminal';
 
   const getStatusInfo = (status: ApiProject['status']) => {
     switch (status) {
@@ -83,6 +90,49 @@ export function Dashboard({ api }: DashboardProps) {
     }, api.latency);
   };
 
+  const runAudit = () => {
+    setIsAuditRunning(true);
+    setResponse('');
+    setAuditLogs([]);
+
+    const steps = [
+      `Target URL: ${baseAuditUrl}`,
+      'Fetching endpoint: /v1/products...',
+      'Validating JSON Schema for A11y metadata...',
+      "CHECK: field 'alt_text' exists in all image objects...",
+      'VIOLATION: Product ID 102 missing alt_text.',
+      'CHECK: ARIA roles match permitted HTML mappings...',
+      'PASSED: Role validation for 14/15 objects.',
+      'Calculating semantic density score...',
+      'Audit complete: 1 Critical, 2 Warnings.',
+    ];
+
+    steps.forEach((step, index) => {
+      setTimeout(() => {
+        setAuditLogs((prev) => [
+          ...prev,
+          `[${new Date().toLocaleTimeString()}] ${step}`,
+        ]);
+        if (index === steps.length - 1) {
+          setIsAuditRunning(false);
+          const auditResponse = {
+            status: 200,
+            timestamp: new Date().toISOString(),
+            audit: {
+              complianceScore: 78,
+              criticalFindings: 1,
+              warnings: 2,
+              missingAltText: 12,
+              ambiguousLabels: 5,
+            },
+            summary: 'Audit complete. Accessibility metadata requires attention.',
+          };
+          setResponse(JSON.stringify(auditResponse, null, 2));
+        }
+      }, index * 600);
+    });
+  };
+
   return (
     <div className="flex-1 h-full overflow-y-auto bg-zinc-50 dark:bg-zinc-950">
       <div className="p-4 sm:p-6 lg:p-8">
@@ -104,6 +154,32 @@ export function Dashboard({ api }: DashboardProps) {
           </div>
         </div>
 
+        {isMockGenerator && (
+          <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 overflow-hidden">
+            <div className="px-4 py-3 border-b border-zinc-200 dark:border-zinc-700 flex items-center justify-between">
+              <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                AI-Powered Mock Data Generator
+              </span>
+              <a
+                href={mockGeneratorUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Open in new tab
+              </a>
+            </div>
+            <iframe
+              src={mockGeneratorUrl}
+              title="AI-Powered Mock Data Generator"
+              className="w-full h-[72vh] min-h-[560px] bg-white"
+              loading="lazy"
+            />
+          </div>
+        )}
+
+        {!isMockGenerator && (
+          <>
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3 mb-6 lg:mb-8">
           {isA11yAuditor ? (
@@ -181,6 +257,53 @@ export function Dashboard({ api }: DashboardProps) {
                 </div>
               </div>
             </>
+          ) : isA11yTerminal ? (
+            <>
+              <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-emerald-500/10">
+                    <CheckCircle className="w-4 h-4 text-emerald-500" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400">A11y Health</div>
+                    <div className="text-xl font-bold text-zinc-900 dark:text-white">78%</div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-rose-500/10">
+                    <AlertCircle className="w-4 h-4 text-rose-500" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400">Missing Alt Text</div>
+                    <div className="text-xl font-bold text-zinc-900 dark:text-white">12</div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-amber-500/10">
+                    <AlertCircle className="w-4 h-4 text-amber-500" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400">Ambiguous Labels</div>
+                    <div className="text-xl font-bold text-zinc-900 dark:text-white">5</div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-orange-500/10">
+                    <AlertCircle className="w-4 h-4 text-orange-500" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400">Invalid Roles</div>
+                    <div className="text-xl font-bold text-zinc-900 dark:text-white">2</div>
+                  </div>
+                </div>
+              </div>
+            </>
           ) : (
             <>
               <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3">
@@ -242,29 +365,39 @@ export function Dashboard({ api }: DashboardProps) {
         <div className="bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700 p-4 lg:p-6 mb-6 lg:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
-              {isA11yAuditor ? 'Run Accessibility Audit' : 'Execute API'}
+              {isA11yAuditor ? 'Run Accessibility Audit' : isA11yTerminal ? 'Start New Audit' : 'Execute API'}
             </h3>
-            <button
-              onClick={executeApi}
-              disabled={isExecuting || api.status === 'offline'}
-              className={`flex items-center justify-center gap-2 px-6 py-2 rounded-lg font-medium transition-colors ${
-                isExecuting || api.status === 'offline'
-                  ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-400 cursor-not-allowed'
-                  : 'bg-blue-500 hover:bg-blue-600 text-white'
-              }`}
-            >
-              {isExecuting ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Executing...
-                </>
-              ) : (
-                <>
-                  <Play className="w-4 h-4" />
-                  {isA11yAuditor ? 'Run Audit' : 'Execute Request'}
-                </>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+              {isA11yTerminal && (
+                <div className="w-full sm:w-72">
+                  <span className="sr-only">Audit URL</span>
+                  <div className="w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-600 dark:text-zinc-300">
+                    {baseAuditUrl}
+                  </div>
+                </div>
               )}
-            </button>
+              <button
+                onClick={isA11yTerminal ? runAudit : executeApi}
+                disabled={(isA11yTerminal ? isAuditRunning : isExecuting) || api.status === 'offline'}
+                className={`flex items-center justify-center gap-2 px-6 py-2 rounded-lg font-medium transition-colors ${
+                  (isA11yTerminal ? isAuditRunning : isExecuting) || api.status === 'offline'
+                    ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-400 cursor-not-allowed'
+                    : 'bg-blue-500 hover:bg-blue-600 text-white'
+                }`}
+              >
+                {(isA11yTerminal ? isAuditRunning : isExecuting) ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    {isA11yTerminal ? 'Auditing...' : 'Executing...'}
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-4 h-4" />
+                    {isA11yAuditor ? 'Run Audit' : isA11yTerminal ? 'Start Audit' : 'Execute Request'}
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
           {response && (
@@ -283,10 +416,22 @@ export function Dashboard({ api }: DashboardProps) {
         {/* Monitoring Graphs */}
         <div>
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">
-            {isA11yAuditor ? 'Accessibility Insights' : 'Real-Time Monitoring'}
+            {isA11yAuditor
+              ? 'Accessibility Insights'
+              : isA11yTerminal
+              ? 'Audit Console'
+              : 'Real-Time Monitoring'}
           </h3>
-          {isA11yAuditor ? <A11yInsights api={api} /> : <StatusGraph api={api} />}
+          {isA11yAuditor ? (
+            <A11yInsights api={api} />
+          ) : isA11yTerminal ? (
+            <A11yAuditPanel logs={auditLogs} isRunning={isAuditRunning} />
+          ) : (
+            <StatusGraph api={api} />
+          )}
         </div>
+          </>
+        )}
       </div>
     </div>
   );
