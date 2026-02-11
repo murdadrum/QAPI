@@ -33,7 +33,7 @@ jobs:
 
       - name: Run Form Submit suite
         env:
-          BASE_URL: https://murdadrum.github.io/QAPI/
+          BASE_URL: https://joshbarteaux.com/
           BROWSER: chromium
         run: pytest -q -k "form_submit"
 

@@ -1,0 +1,12 @@
+name = "contact-api"
+main = "worker.js"
+compatibility_date = "2026-02-11"
+
+[observability]
+enabled = true
+
+[vars]
+# Comma-separated list, no spaces around commas.
+ALLOWED_ORIGINS = "https://joshbarteaux.com,https://www.joshbarteaux.com,http://localhost:5173,http://localhost:5174"
+CONTACT_TO = "josh@joshbarteaux.com"
+RESEND_FROM = "Portfolio Contact <contact@joshbarteaux.com>"

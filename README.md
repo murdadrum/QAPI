@@ -2,6 +2,8 @@
 
 Portfolio-ready dashboard for monitoring and executing REST, GraphQL, and WebSocket API calls.
 
+Live site: `https://joshbarteaux.com/`
+
 ## Quick start
 
 ```bash
@@ -24,14 +26,14 @@ python -m playwright install --with-deps
 Run the full suite against the live dev site:
 
 ```bash
-BASE_URL=https://murdadrum.github.io/QAPI/ pytest -q
+BASE_URL=https://joshbarteaux.com/ pytest -q
 ```
 
 Run a specific suite (examples):
 
 ```bash
-BASE_URL=https://murdadrum.github.io/QAPI/ pytest -q -k test_modals_suite
-BASE_URL=https://murdadrum.github.io/QAPI/ pytest -q -k test_form_submit_suite
+BASE_URL=https://joshbarteaux.com/ pytest -q -k test_modals_suite
+BASE_URL=https://joshbarteaux.com/ pytest -q -k test_form_submit_suite
 ```
 
 Traces are saved to `traces/` on failure; you can open them with:
@@ -46,7 +48,8 @@ This repo is configured for GitHub Pages via Actions.
 
 1. Push to `main`.
 2. In GitHub: Settings → Pages → Source = GitHub Actions.
-3. Your site will be available at `https://murdadrum.github.io/QAPI/`.
+3. Primary URL: `https://joshbarteaux.com/`.
+4. GitHub Pages URL (fallback): `https://murdadrum.github.io/QAPI/`.
 
 Optional manual deploy (uses `gh-pages`):
 
@@ -85,7 +88,11 @@ wrangler secret put RESEND_API_KEY
 wrangler deploy
 ```
 
-After deploy, copy your Worker URL (example: `https://contact-api.<subdomain>.workers.dev/api/contact`).
+Current deployed endpoint:
+
+- `https://contact-api.remotelyamused.workers.dev/api/contact`
+
+After deploy, if your Worker URL changes, update the frontend fallback endpoint.
 
 ### 3. Wire the frontend endpoint
 

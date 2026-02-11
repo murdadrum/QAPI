@@ -38,7 +38,7 @@ jobs:
 
       - name: Run post-deploy smoke
         env:
-          BASE_URL: https://murdadrum.github.io/QAPI/
+          BASE_URL: https://joshbarteaux.com/
           BROWSER: chromium
         run: pytest -q
 

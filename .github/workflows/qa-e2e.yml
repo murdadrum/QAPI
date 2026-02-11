@@ -39,7 +39,7 @@ jobs:
 
       - name: Run Playwright + Pytest
         env:
-          BASE_URL: https://murdadrum.github.io/QAPI/
+          BASE_URL: https://joshbarteaux.com/
           BROWSER: ${{ matrix.browser }}
         run: pytest -q
 
