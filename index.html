@@ -228,19 +228,128 @@
       html.theme-dark .border-slate-100 {
         border-color: #1e293b !important;
       }
+
+      /* Minimal UI pass */
+      :root {
+        --ui-bg: #f6f7f9;
+        --ui-surface: #ffffff;
+        --ui-border: #e5e7eb;
+        --ui-text: #0f172a;
+        --ui-muted: #475569;
+      }
+
+      html,
+      body {
+        margin: 0 !important;
+        padding-top: 0 !important;
+      }
+
+      body {
+        background: var(--ui-bg) !important;
+        color: var(--ui-text) !important;
+      }
+
+      nav.fixed.w-full {
+        background: rgba(255, 255, 255, 0.96) !important;
+        backdrop-filter: none !important;
+        box-shadow: 0 1px 0 rgba(15, 23, 42, 0.08) !important;
+      }
+
+      section[id] {
+        padding-top: clamp(2.25rem, 5vw, 4rem) !important;
+        padding-bottom: clamp(2.25rem, 5vw, 4rem) !important;
+      }
+
+      .bg-gradient-to-r,
+      .bg-gradient-to-tr {
+        background-image: none !important;
+      }
+
+      .rounded-2xl {
+        border-radius: 0.875rem !important;
+      }
+
+      .rounded-xl {
+        border-radius: 0.75rem !important;
+      }
+
+      .shadow-sm,
+      .shadow,
+      .shadow-lg,
+      .shadow-xl,
+      .shadow-2xl {
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      }
+
+      .bg-white,
+      .bg-white\/90,
+      .bg-white\/80,
+      .bg-white\/70 {
+        background-color: var(--ui-surface) !important;
+      }
+
+      .border-slate-100,
+      .border-slate-200 {
+        border-color: var(--ui-border) !important;
+      }
+
+      .text-slate-600,
+      .text-slate-500 {
+        color: var(--ui-muted);
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.015em;
+      }
+
+      p {
+        line-height: 1.65;
+      }
+
+      .glass-card {
+        background: #ffffff !important;
+        backdrop-filter: none !important;
+        border: 1px solid var(--ui-border) !important;
+      }
+
     </style>
   </head>
   <body class="bg-slate-50 text-slate-800 antialiased font-sans">
     <!-- Navigation -->
     <nav
-      class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm"
+      class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <div class="flex-shrink-0 flex items-center gap-2">
-            <i class="fa-solid fa-bug text-qa-accent text-2xl"></i>
-            <span class="font-bold text-xl tracking-tight text-slate-900"
-              >JOSH<span class="text-qa-accent">/</span>BARTEAUX</span
+            <span class="inline-flex w-8 h-8" aria-hidden="true">
+              <svg
+                viewBox="0 0 40 40"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-8 h-8"
+              >
+                <rect width="40" height="40" rx="10" fill="#283C6E" />
+                <path
+                  d="M4.98698 24.5312L4.98698 27.8646L11.6536 27.8646L11.6536 24.5312L8.32031 24.5312L4.98698 24.5312ZM8.32031 24.5312L11.6536 24.5312L11.6536 11.6406L8.32031 11.6406L4.98698 11.6406L4.98698 24.5312L8.32031 24.5312Z"
+                  fill="white"
+                />
+                <path
+                  d="M35.0911 15.3516L35.0911 12.0182L28.4245 12.0182L28.4245 15.3516L31.7578 15.3516L35.0911 15.3516ZM31.7578 28.3594L35.0911 28.3594L35.0911 15.3516L31.7578 15.3516L28.4245 15.3516L28.4245 28.3594L31.7578 28.3594Z"
+                  fill="white"
+                />
+                <path d="M11.6816 8.22925H23.4003" stroke="white" stroke-width="6.66667" />
+                <path d="M16.7031 31.6667L28.4218 31.6667" stroke="white" stroke-width="6.66667" />
+                <circle cx="20" cy="19.8438" r="4.6875" fill="#283C6E" />
+                <circle cx="20" cy="19.8438" r="4.6875" fill="white" />
+              </svg>
+            </span>
+            <span
+              class="font-bold text-xl tracking-tight text-slate-900"
+              style="color: #111827 !important; font-weight: 800;"
+              >JOSH<span class="text-qa-accent" style="color: #6b7280 !important;">/</span>BARTEAUX</span
             >
           </div>
           <div class="hidden md:flex items-center space-x-6">
@@ -261,7 +370,7 @@
             >
             <a
               href="#dashboard"
-              class="text-slate-600 hover:text-qa-accent transition-colors font-medium"
+              class="hidden text-slate-600 hover:text-qa-accent transition-colors font-medium"
               >Dashboard</a
             >
             <a
@@ -275,13 +384,7 @@
               aria-label="Toggle theme"
             >
               <i id="theme-icon" class="fa-solid fa-moon"></i>
-            </button>
-            <a
-              href="#contact"
-              class="px-4 py-2 rounded-full bg-slate-900 text-white hover:bg-slate-700 transition-colors font-medium"
-              >Hire Me</a
-            >
-          </div>
+            </button>          </div>
           <!-- Mobile menu button -->
           <div class="md:hidden flex items-center">
             <button
@@ -324,7 +427,7 @@
           >
           <a
             href="#dashboard"
-            class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-qa-accent rounded-md"
+            class="hidden block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-qa-accent rounded-md"
             >Dashboard</a
           >
           <a
@@ -342,7 +445,7 @@
     <!-- Hero Section -->
     <section
       id="home"
-      class="pt-24 pb-12 md:pt-32 md:pb-24 overflow-hidden relative"
+      class="pt-24 pb-12 md:pt-32 md:pb-24 overflow-hidden relative" style="margin-top: 60px;"
     >
       <div class="absolute inset-0 -z-10 opacity-20">
         <div
@@ -365,14 +468,14 @@
             <span
               class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"
             ></span>
-            Available for Contracts
+            Available
           </a>
           <h1
             class="text-4xl md:text-6xl font-bold text-slate-900 leading-tight"
           >
             Break the Code.<br />
             <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500"
+              class="text-slate-900" style="color: rgba(15, 23, 42, 0.4);"
               >Not the User.</span
             >
           </h1>
@@ -809,11 +912,10 @@
             </div>
             <div class="p-6 flex flex-col flex-grow">
               <h3 class="text-xl font-bold text-slate-900 mb-2">
-                VennDiachrome UI Prototype
+                VennDiachrome
               </h3>
               <p class="text-slate-600 text-sm mb-4">
-                An embedded interactive prototype focused on chromatic UI
-                exploration, component clarity, and polished UX flow.
+                GitHub tech stack color coding.
               </p>
 
               <div class="space-y-3 mb-6 flex-grow">
@@ -894,7 +996,7 @@
                 Figma QA/DMS
               </h3>
               <p class="text-slate-600 text-sm mb-4">
-                Embedded Figma QA/DMS design system for interactive review, component validation, and UX documentation.
+                Interactive Design Management with import/export/URL CSS & json for streamlined source of truth.
               </p>
 
               <div class="space-y-3 mb-6 flex-grow">
@@ -973,9 +1075,7 @@
                 Promptly
               </h3>
               <p class="text-slate-600 text-sm mb-4">
-                Streamlined for rapid visual drafting and storyboarding. Add
-                reference media to generate a structured cinematic prompt,
-                script, and voiceover.
+                Rapid cinematic prompting for transctipts and voiceover.
               </p>
 
               <div class="space-y-3 mb-6 flex-grow">
@@ -1142,10 +1242,9 @@
               </div>
             </div>
             <div class="p-6 flex flex-col flex-grow">
-              <h3 class="text-xl font-bold text-slate-900 mb-2">Projectiles</h3>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">ProjecTiles</h3>
               <p class="text-slate-600 text-sm mb-4">
-                Interactive prototype showcasing a clean UI concept with focused
-                micro-interactions and structured content flow.
+                Tactile grid for project presentations.
               </p>
 
               <div class="space-y-3 mb-6 flex-grow">
@@ -1225,10 +1324,9 @@
               </div>
             </div>
             <div class="p-6 flex flex-col flex-grow">
-              <h3 class="text-xl font-bold text-slate-900 mb-2">Musebox</h3>
+              <h3 class="text-xl font-bold text-slate-900 mb-2">MuseBox</h3>
               <p class="text-slate-600 text-sm mb-4">
-                A lightweight music-focused web experience with a clean
-                interface and fast, focused interactions.
+                Expeditious thumbnailing and cinematic storyboarding.
               </p>
 
               <div class="space-y-3 mb-6 flex-grow">
@@ -1290,31 +1388,21 @@
     </section>
 
     <!-- Dashboard -->
-    <section id="dashboard" class="py-20 bg-white border-t border-slate-100">
+    <section id="dashboard" class="hidden py-8 sm:py-10 lg:py-12 bg-white border-t border-slate-100">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl">
-          <h2 class="text-3xl font-bold text-slate-900">Dashboard</h2>
+          <h2 class="text-3xl font-bold text-slate-900">ProjecTiles</h2>
           <p class="mt-2 text-slate-600">
-            A prototype AI/UX API dashboard that turns reliability metrics
-            into user-impact signals and actionable priorities.
+            Embedded interactive prototype.
           </p>
         </div>
-        <div class="mt-8">
-          <div class="rounded-2xl border border-slate-200 bg-white shadow-lg overflow-hidden">
-            <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50">
-              <div class="text-sm font-semibold text-slate-700">
-                AI/UX API Dashboard
-              </div>
-              <div class="flex items-center gap-2 text-xs text-slate-500">
-                <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
-                Embedded Preview
-              </div>
-            </div>
+        <div class="mt-6">
+          <div class="rounded-2xl border border-slate-200 bg-white shadow-lg p-2 sm:p-3">
             <iframe
-              src="assets/AIUXUIAPI-Dashboard/dist/index.html"
-              title="AI/UX API Dashboard"
+              src="https://projectiles.figma.site/"
+              title="ProjecTiles"
               loading="lazy"
-              class="w-full h-[520px] md:h-[640px] lg:h-[700px] bg-white"
+              class="block w-full rounded-xl border border-slate-200 bg-white aspect-[4/5] sm:aspect-[4/3] lg:aspect-[16/10]"
             ></iframe>
           </div>
         </div>
@@ -1420,13 +1508,15 @@
         <div
           class="bg-slate-800 rounded-2xl p-8 shadow-2xl text-left max-w-2xl mx-auto border border-slate-700"
         >
-          <form
-            class="space-y-6"
-            onsubmit="
-              event.preventDefault();
-              alert('Thanks for reaching out! I will respond shortly.');
-            "
-          >
+          <form id="contact-form" class="space-y-6">
+            <input
+              type="text"
+              name="company"
+              class="hidden"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+            />
             <div class="grid md:grid-cols-2 gap-6">
               <div>
                 <label class="block text-sm font-medium text-slate-400 mb-2"
@@ -1434,8 +1524,10 @@
                 >
                 <input
                   type="text"
+                  name="contact_name"
                   class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 text-white transition"
                   placeholder="John Doe"
+                  required
                 />
               </div>
               <div>
@@ -1444,8 +1536,10 @@
                 >
                 <input
                   type="email"
+                  name="contact_email"
                   class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 text-white transition"
                   placeholder="john@example.com"
+                  required
                 />
               </div>
             </div>
@@ -1454,16 +1548,24 @@
                 >Message</label
               >
               <textarea
+                name="contact_message"
                 class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 text-white transition h-32"
                 placeholder="Tell me about your project..."
+                required
               ></textarea>
             </div>
             <button
               type="submit"
+              id="contact-submit-btn"
               class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition shadow-lg hover:shadow-blue-500/20"
             >
               Send Message
             </button>
+            <p
+              id="contact-status"
+              class="hidden text-sm font-medium"
+              aria-live="polite"
+            ></p>
           </form>
         </div>
 
@@ -1496,7 +1598,7 @@
           </a>
         </div>
         <p class="text-slate-600 text-sm mt-8">
-          &copy; 2024 QA Josh. All tests passed.
+          &copy; 2026 Josh Barteaux. Get Up and Do Something LLC
         </p>
       </div>
     </section>
@@ -1520,7 +1622,7 @@
               <i class="fa-solid fa-robot text-white text-sm"></i>
             </div>
             <div>
-              <h4 class="text-white font-bold text-sm">Portfolio Assistant</h4>
+              <h4 class="text-white font-bold text-sm">Aime</h4>
               <p class="text-slate-400 text-xs flex items-center gap-1">
                 <span class="w-2 h-2 rounded-full bg-green-500"></span> Online
               </p>
@@ -1599,11 +1701,8 @@
           class="flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-slate-800"
         >
           <div class="flex items-center gap-3">
-            <span class="w-3 h-3 rounded-full bg-red-500"></span>
-            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-            <span class="w-3 h-3 rounded-full bg-green-500"></span>
             <span
-              class="ml-4 text-sm font-mono text-slate-300 font-bold"
+              class="text-sm font-mono text-slate-300 font-bold"
               id="demo-title"
               >Test Runner</span
             >
@@ -1665,11 +1764,8 @@
           class="flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-slate-800"
         >
           <div class="flex items-center gap-3">
-            <span class="w-3 h-3 rounded-full bg-red-500"></span>
-            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-            <span class="w-3 h-3 rounded-full bg-green-500"></span>
             <span
-              class="ml-4 text-sm font-mono text-slate-300 font-bold"
+              class="text-sm font-mono text-slate-300 font-bold"
               id="project-demo-title"
               >Project Demo</span
             >
@@ -1757,11 +1853,7 @@
         } catch (_) {
           // ignore storage errors
         }
-        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-          applyTheme("dark");
-        } else {
-          applyTheme("light");
-        }
+        applyTheme("light");
       }
 
       function toggleTheme() {
@@ -3945,6 +4037,37 @@
         });
       });
 
+      const projectCardImages = document.querySelectorAll(
+        "#projects-grid > .group > div:first-child",
+      );
+      projectCardImages.forEach((imageArea) => {
+        imageArea.classList.add("cursor-pointer");
+        imageArea.setAttribute("role", "button");
+        imageArea.setAttribute("tabindex", "0");
+        imageArea.setAttribute("aria-label", "Open project demo");
+
+        const openCardDemo = () => {
+          const card = imageArea.closest(".group");
+          const trigger = card ? card.querySelector(".project-demo") : null;
+          if (!trigger) return;
+          const url =
+            trigger.getAttribute("data-demo-url") ||
+            trigger.getAttribute("href");
+          const title = card
+            ? card.querySelector("h3")?.innerText
+            : "Project Demo";
+          openProjectDemo(url, title);
+        };
+
+        imageArea.addEventListener("click", openCardDemo);
+        imageArea.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openCardDemo();
+          }
+        });
+      });
+
       projectDemoModal.addEventListener("click", (e) => {
         if (e.target === projectDemoModal) closeProjectDemo();
       });
@@ -3957,6 +4080,74 @@
           closeProjectDemo();
         }
       });
+
+      const contactForm = document.getElementById("contact-form");
+      const contactStatus = document.getElementById("contact-status");
+      const contactSubmitBtn = document.getElementById("contact-submit-btn");
+      const contactEndpoint =
+        window.CONTACT_API_ENDPOINT ||
+        "https://contact-api.remotelyamused.workers.dev/api/contact";
+
+      if (contactForm) {
+        contactForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          if (!contactForm.reportValidity()) return;
+
+          const name = contactForm.elements["contact_name"].value.trim();
+          const email = contactForm.elements["contact_email"].value.trim();
+          const message = contactForm.elements["contact_message"].value.trim();
+          const company = contactForm.elements["company"].value.trim();
+
+          if (contactSubmitBtn) {
+            contactSubmitBtn.innerText = "Sending...";
+            contactSubmitBtn.disabled = true;
+          }
+          if (contactStatus) {
+            contactStatus.classList.remove("hidden");
+            contactStatus.className = "text-sm font-medium text-slate-300";
+            contactStatus.textContent = "Sending your message...";
+          }
+
+          try {
+            const response = await fetch(contactEndpoint, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name,
+                email,
+                message,
+                company,
+                source: window.location.href,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`Contact API failed with status ${response.status}`);
+            }
+
+            if (contactStatus) {
+              contactStatus.className = "text-sm font-medium text-emerald-300";
+              contactStatus.textContent =
+                "Message sent. Thanks for reaching out.";
+            }
+            contactForm.reset();
+          } catch (error) {
+            if (contactStatus) {
+              contactStatus.className = "text-sm font-medium text-rose-300";
+              contactStatus.innerHTML =
+                'Unable to send right now. Please try again, or email <a href="mailto:josh@joshbarteaux.com" class="underline text-blue-300 hover:text-blue-200">josh@joshbarteaux.com</a>.';
+            }
+            console.error("Contact form submission error:", error);
+          } finally {
+            if (contactSubmitBtn) {
+              contactSubmitBtn.innerText = "Send Message";
+              contactSubmitBtn.disabled = false;
+            }
+          }
+        });
+      }
 
       /* -------------------------------------------------------------------------- */
       /* Chat Widget Logic                            */
@@ -3983,8 +4174,13 @@
       const knowledgeBase = [
         {
           keywords: ["hello", "hi", "hey", "start"],
-          response:
-            "Hello there! I'm here to help you navigate Josh's portfolio. You can ask about his **skills**, **projects**, or **availability**.",
+          response: {
+            text: "I can help with skills, projects, availability, and contact details. Ask a specific question and I will give links where possible.",
+            links: [
+              { label: "View Projects", url: "#projects" },
+              { label: "Contact Josh", url: "#contact" },
+            ],
+          },
         },
         {
           keywords: [
@@ -3995,47 +4191,110 @@
             "tools",
             "language",
           ],
-          response:
-            "Josh is proficient in **TypeScript, Python, and Java**. For automation, he uses **Playwright, Selenium, and Cypress**. He also has strong experience with CI/CD (Jenkins/GitHub Actions) and API testing (Postman/K6).",
+          response: {
+            text: "Core stack: TypeScript, Python, Java. Test automation: Playwright, Selenium, Cypress. QA delivery: CI/CD with GitHub Actions/Jenkins and API testing with Postman/K6.",
+            links: [{ label: "GitHub Profile", url: "https://github.com/murdadrum" }],
+          },
         },
         {
           keywords: ["experience", "work", "history", "background", "senior"],
-          response:
-            "Josh is a **Senior SDET** with extensive experience in building scalable automation frameworks and mentoring QA teams. He specializes in shifting quality left and optimizing CI pipelines.",
+          response: {
+            text: "Josh is a Senior SDET focused on scalable test frameworks, quality strategy, and CI pipeline optimization.",
+            links: [{ label: "LinkedIn", url: "https://www.linkedin.com/in/joshbarteaux" }],
+          },
         },
         {
           keywords: ["contact", "email", "hire", "reach", "contract"],
-          response:
-            "You can reach Josh via the contact form on this page, or connect with him on LinkedIn. He is currently **Available for Contracts**.",
+          response: {
+            text: "Best contact options are email or LinkedIn. You can also use the contact form on this page.",
+            links: [
+              { label: "Email Josh", url: "mailto:josh@joshbarteaux.com" },
+              { label: "LinkedIn", url: "https://www.linkedin.com/in/joshbarteaux" },
+              { label: "Contact Form", url: "#contact" },
+            ],
+          },
         },
         {
           keywords: ["project", "case study", "portfolio"],
-          response:
-            "This portfolio highlights three main projects: an **E-commerce E2E Suite** (Playwright), a **Figma QA/DMS** design system (Figma), and a **Mobile Automation** framework (Appium). Which one interests you?",
+          response: {
+            text: "Top live demos include VennDiachrome, Figma QA/DMS, and Promptly. Tell me which one you want and I can point you to it.",
+            links: [
+              { label: "VennDiachrome", url: "https://venndiachrome.figma.site" },
+              { label: "Figma QA/DMS", url: "https://qadms.figma.site/" },
+              { label: "Promptly", url: "https://promptly-779175721635.us-west1.run.app" },
+            ],
+          },
         },
         {
           keywords: ["playwright", "cypress", "selenium"],
-          response:
-            "Josh prefers **Playwright** for modern web apps due to its speed and reliability, but maintains deep expertise in Selenium for legacy systems.",
+          response: {
+            text: "Playwright is the primary tool for modern web automation in this portfolio, while Selenium/Cypress experience supports legacy and mixed environments.",
+            links: [{ label: "QA Repo", url: "https://github.com/murdadrum/QAPI" }],
+          },
         },
         {
           keywords: ["resume", "cv"],
-          response:
-            "You can discuss specific resume details by sending a message through the contact form!",
+          response: {
+            text: "You can download Josh's ATS resume directly.",
+            links: [
+              {
+                label: "Download ATS Resume",
+                url: "assets/ats-resume-placeholder.txt",
+              },
+              { label: "Contact Josh", url: "mailto:josh@joshbarteaux.com" },
+            ],
+          },
         },
       ];
 
       function findResponse(userText) {
         const lowerText = userText.toLowerCase();
 
-        // Find best match based on keywords
         const match = knowledgeBase.find((entry) =>
           entry.keywords.some((keyword) => lowerText.includes(keyword)),
         );
 
-        return match
-          ? match.response
-          : "I'm not sure about that specific detail yet. However, Josh is an expert in QA Automation and would love to chat directly! Try asking about his **skills** or **projects**.";
+        return (
+          match?.response || {
+            text: "I do not have that exact detail yet. Ask about skills, projects, resume, or contact and I will provide direct links.",
+            links: [
+              { label: "Projects", url: "#projects" },
+              { label: "Contact", url: "#contact" },
+              { label: "GitHub", url: "https://github.com/murdadrum" },
+            ],
+          }
+        );
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function renderBotResponse(response) {
+        const safeText = escapeHtml(response.text || "").replace(/\n/g, "<br />");
+        const links = Array.isArray(response.links) ? response.links : [];
+        const linksHtml = links
+          .map((link) => {
+            const label = escapeHtml(link.label || "Open");
+            const url = escapeHtml(link.url || "#");
+            const targetAttrs = /^(https?:|mailto:)/i.test(link.url || "")
+              ? ' target="_blank" rel="noopener noreferrer"'
+              : "";
+            return `<a href="${url}"${targetAttrs} class="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-slate-200 text-blue-600 hover:text-blue-700 hover:border-blue-300 transition text-xs font-semibold">${label}</a>`;
+          })
+          .join("");
+
+        return `
+          <div class="space-y-3">
+            <p>${safeText}</p>
+            ${linksHtml ? `<div class="flex flex-wrap gap-2">${linksHtml}</div>` : ""}
+          </div>
+        `;
       }
 
       // Handle Messages
@@ -4076,10 +4335,12 @@
           ? `bg-white border border-slate-100 rounded-tl-none text-slate-600`
           : `bg-blue-600 text-white rounded-tr-none`;
 
+        const content = isBot ? renderBotResponse(text) : escapeHtml(text);
+
         div.innerHTML = `
                 ${avatar}
                 <div class="${bubbleObj} p-3 rounded-2xl shadow-sm text-sm max-w-[80%] animate-fade-in">
-                    ${text} <!-- Note: In a real app, sanitize this input! -->
+                    ${content}
                 </div>
             `;
 

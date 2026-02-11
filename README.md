@@ -54,6 +54,51 @@ Optional manual deploy (uses `gh-pages`):
 npm run deploy
 ```
 
+## Professional Contact Form (Cloudflare Worker + Resend)
+
+GitHub Pages is static, so the contact form should call a serverless API instead of `mailto`.
+
+This repo includes a Worker at `workers/contact-api/worker.js` with CORS, validation, spam honeypot, and Resend delivery.
+
+### 1. Prerequisites
+
+1. Create a [Resend](https://resend.com/) account and verify your sending domain.
+2. Install Wrangler globally:
+
+```bash
+npm i -g wrangler
+```
+
+3. Login to Cloudflare:
+
+```bash
+wrangler login
+```
+
+### 2. Configure secrets and deploy
+
+From `workers/contact-api`:
+
+```bash
+cd workers/contact-api
+wrangler secret put RESEND_API_KEY
+wrangler deploy
+```
+
+After deploy, copy your Worker URL (example: `https://contact-api.<subdomain>.workers.dev/api/contact`).
+
+### 3. Wire the frontend endpoint
+
+In `index.html` (and mirrored inline files), update the fallback endpoint in the contact script:
+
+```js
+const contactEndpoint =
+  window.CONTACT_API_ENDPOINT ||
+  "https://contact-api.remotelyamused.workers.dev/api/contact";
+```
+
+Replace that URL with your actual deployed Worker URL.
+
 ## Notes
 
 - Auth tokens and API keys are stored in `localStorage` for demo convenience.
