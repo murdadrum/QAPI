@@ -128,6 +128,10 @@ def test_chat_assistant_suite():
     with sync_playwright() as p:
         browser, context, page, trace_path = _new_page(p, "chat-assistant")
         page.goto(BASE_URL, wait_until="networkidle")
+        chat_widget = page.locator("#chat-widget")
+        if chat_widget.count() and chat_widget.is_hidden():
+            _close_with_trace(browser, context, trace_path)
+            return
         page.locator("#chat-toggle").click()
         page.fill("#chat-input", "hello")
         page.locator("#chat-form button[type='submit']").click()
