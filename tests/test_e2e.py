@@ -95,19 +95,32 @@ def test_modals_suite():
 def test_form_submit_suite():
     with sync_playwright() as p:
         browser, context, page, trace_path = _new_page(p, "contact-form")
+        api_calls = []
+
+        def mock_contact_api(route, request):
+            api_calls.append(request.post_data_json)
+            route.fulfill(
+                status=200,
+                content_type="application/json",
+                body='{"ok":true}',
+            )
+
+        page.route("**/api/contact", mock_contact_api)
         page.goto(BASE_URL, wait_until="networkidle")
         page.fill('input[placeholder="John Doe"]', "QA Test")
         page.fill('input[type="email"]', "qa@test.dev")
-        page.fill('textarea[placeholder="Tell me about your project..."]', "Hello from QA")
-        message = {}
-
-        def handle_dialog(dialog):
-            message["text"] = dialog.message
-            dialog.accept()
-
-        page.on("dialog", handle_dialog)
+        page.fill(
+            'textarea[placeholder="Tell me about your project..."]',
+            "Hello from QA with enough detail.",
+        )
         page.get_by_role("button", name="Send Message").click()
-        assert "Thanks for reaching out" in message.get("text", "")
+        page.wait_for_selector("#contact-status:not(.hidden)", timeout=5000)
+        assert "Message sent. Thanks for reaching out." in page.locator(
+            "#contact-status"
+        ).inner_text()
+        assert len(api_calls) == 1
+        assert api_calls[0]["name"] == "QA Test"
+        assert api_calls[0]["email"] == "qa@test.dev"
         _close_with_trace(browser, context, trace_path)
 
 
@@ -141,8 +154,8 @@ def test_dashboard_embed():
         browser, context, page, trace_path = _new_page(p, "dashboard-embed")
         page.goto(BASE_URL, wait_until="networkidle")
         dashboard = page.locator("#dashboard")
-        assert dashboard.get_by_role("heading", name="Dashboard").is_visible()
+        assert dashboard.is_hidden()
         iframe = dashboard.locator("iframe")
         src = iframe.get_attribute("src")
-        assert src and "AIUXUIAPI-Dashboard/dist/index.html" in src
+        assert src and "projectiles.figma.site" in src
         _close_with_trace(browser, context, trace_path)
