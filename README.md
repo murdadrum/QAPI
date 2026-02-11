@@ -24,14 +24,14 @@ python -m playwright install --with-deps
 Run the full suite against the live dev site:
 
 ```bash
-BASE_URL=https://murdadrum.github.io/QAPI/ pytest -q
+BASE_URL=https://joshbarteaux.com/ pytest -q
 ```
 
 Run a specific suite (examples):
 
 ```bash
-BASE_URL=https://murdadrum.github.io/QAPI/ pytest -q -k test_modals_suite
-BASE_URL=https://murdadrum.github.io/QAPI/ pytest -q -k test_form_submit_suite
+BASE_URL=https://joshbarteaux.com/ pytest -q -k test_modals_suite
+BASE_URL=https://joshbarteaux.com/ pytest -q -k test_form_submit_suite
 ```
 
 Traces are saved to `traces/` on failure; you can open them with:
@@ -46,7 +46,7 @@ This repo is configured for GitHub Pages via Actions.
 
 1. Push to `main`.
 2. In GitHub: Settings → Pages → Source = GitHub Actions.
-3. Your site will be available at `https://murdadrum.github.io/QAPI/`.
+3. Your site will be available at `https://joshbarteaux.com/`.
 
 Optional manual deploy (uses `gh-pages`):
 
