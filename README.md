@@ -88,6 +88,11 @@ wrangler secret put RESEND_API_KEY
 wrangler deploy
 ```
 
+Optional sender override vars in `workers/contact-api/wrangler.toml`:
+
+- `RESEND_FROM` for your verified sender identity.
+- `RESEND_FALLBACK_FROM` (defaults to `onboarding@resend.dev`) used if the primary sender is rejected.
+
 Current deployed endpoint:
 
 - `https://contact-api.remotelyamused.workers.dev/api/contact`

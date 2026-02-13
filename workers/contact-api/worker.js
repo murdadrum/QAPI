@@ -48,6 +48,23 @@ function sanitize(value, maxLength) {
     .slice(0, maxLength);
 }
 
+async function sendWithResend(env, payload, fromAddress) {
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ...payload, from: fromAddress }),
+  });
+
+  if (response.ok) {
+    return { ok: true, status: response.status, body: "" };
+  }
+
+  return { ok: false, status: response.status, body: await response.text() };
+}
+
 export default {
   async fetch(request, env) {
     const { pathname } = new URL(request.url);
@@ -131,7 +148,6 @@ export default {
       .replace(/\n/g, "<br />");
 
     const resendPayload = {
-      from: env.RESEND_FROM,
       to: [env.CONTACT_TO],
       reply_to: email,
       subject: `Portfolio inquiry from ${name}`,
@@ -155,19 +171,33 @@ export default {
       `,
     };
 
-    try {
-      const resendResponse = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${env.RESEND_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(resendPayload),
-      });
+    if (!env.RESEND_API_KEY || !env.CONTACT_TO) {
+      console.error("Missing required env vars for contact worker");
+      return jsonResponse(
+        { ok: false, error: "Server email configuration is incomplete" },
+        500,
+        responseCorsHeaders,
+      );
+    }
 
-      if (!resendResponse.ok) {
-        const errorBody = await resendResponse.text();
-        console.error("Resend error:", resendResponse.status, errorBody);
+    const primaryFrom = env.RESEND_FROM || "Portfolio Contact <onboarding@resend.dev>";
+    const fallbackFrom = env.RESEND_FALLBACK_FROM || "Portfolio Contact <onboarding@resend.dev>";
+
+    try {
+      let resendResult = await sendWithResend(env, resendPayload, primaryFrom);
+
+      // Some accounts/domains reject custom sender identities; retry once with fallback.
+      if (!resendResult.ok && fallbackFrom !== primaryFrom) {
+        console.warn(
+          "Primary sender rejected, retrying with fallback sender",
+          resendResult.status,
+          resendResult.body,
+        );
+        resendResult = await sendWithResend(env, resendPayload, fallbackFrom);
+      }
+
+      if (!resendResult.ok) {
+        console.error("Resend error:", resendResult.status, resendResult.body);
         return jsonResponse(
           { ok: false, error: "Email provider rejected request" },
           502,
