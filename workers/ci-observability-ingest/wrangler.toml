@@ -1,0 +1,21 @@
+name = "ci-observability-ingest"
+main = "worker.js"
+compatibility_date = "2026-02-13"
+workers_dev = true
+preview_urls = false
+
+[observability]
+enabled = true
+
+# Optional forwarding target (for BigQuery bridge, Pub/Sub bridge, etc.)
+[vars]
+DOWNSTREAM_INGEST_URL = ""
+DOWNSTREAM_INGEST_TOKEN = ""
+
+[env.r2]
+# Deploy with this profile only after enabling R2 in Cloudflare:
+# wrangler deploy --env r2
+
+[[env.r2.r2_buckets]]
+binding = "CI_EVENTS_BUCKET"
+bucket_name = "qapi-ci-events"

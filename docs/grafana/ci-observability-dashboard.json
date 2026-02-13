@@ -1,0 +1,89 @@
+{
+  "title": "CI Observability",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "tags": [
+    "ci",
+    "github-actions",
+    "devops"
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "title": "Workflow Pass Rate (Daily)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "${BIGQUERY_DS_UID}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "rawSql": "select run_date as time, workflow_name as metric, pass_rate * 100 as value from ci.v_workflow_health_daily order by run_date desc limit 365",
+          "format": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "P95 Duration (Seconds)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "${BIGQUERY_DS_UID}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "targets": [
+        {
+          "rawSql": "select run_date as time, workflow_name as metric, p95_duration_seconds as value from ci.v_workflow_health_daily order by run_date desc limit 365",
+          "format": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Workflow -> Job Node Graph",
+      "type": "nodeGraph",
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "${BIGQUERY_DS_UID}"
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "targets": [
+        {
+          "rawSql": "select source as id, source as title from ci.v_workflow_node_edges union distinct select target as id, target as title from ci.v_workflow_node_edges",
+          "refId": "Nodes",
+          "format": "table"
+        },
+        {
+          "rawSql": "select source, target, weight as mainstat, failures as secondarystat from ci.v_workflow_node_edges",
+          "refId": "Edges",
+          "format": "table"
+        }
+      ],
+      "options": {
+        "nodes": {
+          "mainStatUnit": "short",
+          "secondaryStatUnit": "short"
+        }
+      }
+    }
+  ]
+}

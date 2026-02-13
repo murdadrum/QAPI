@@ -1,0 +1,159 @@
+name: CI Observability Export
+
+on:
+  workflow_run:
+    types: [requested, in_progress, completed]
+  workflow_job:
+    types: [queued, in_progress, completed]
+  registry_package:
+    types: [published, updated]
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Export telemetry event
+        uses: actions/github-script@v7
+        env:
+          CI_OBSERVABILITY_INGEST_URL: ${{ secrets.CI_OBSERVABILITY_INGEST_URL }}
+          CI_OBSERVABILITY_INGEST_TOKEN: ${{ secrets.CI_OBSERVABILITY_INGEST_TOKEN }}
+        with:
+          script: |
+            const ingestUrl = process.env.CI_OBSERVABILITY_INGEST_URL;
+            const ingestToken = process.env.CI_OBSERVABILITY_INGEST_TOKEN || "";
+            if (!ingestUrl) {
+              core.notice("Skipping export: CI_OBSERVABILITY_INGEST_URL is not configured.");
+              return;
+            }
+
+            const payload = context.payload || {};
+            const eventName = context.eventName;
+            const repo = `${context.repo.owner}/${context.repo.repo}`;
+            const now = new Date().toISOString();
+
+            function iso(value) {
+              if (!value) return null;
+              const parsed = new Date(value);
+              return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
+            }
+
+            const normalized = {
+              event_id: `${context.runId}-${context.runAttempt}-${eventName}-${now}`,
+              event_name: eventName,
+              exported_at: now,
+              repository: repo,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sender: payload.sender?.login || null,
+              workflow: null,
+              run: null,
+              job: null,
+              package: null
+            };
+
+            if (eventName === "workflow_run") {
+              const run = payload.workflow_run || {};
+              normalized.workflow = {
+                id: payload.workflow?.id || run.workflow_id || null,
+                name: payload.workflow?.name || run.name || null,
+                path: payload.workflow?.path || null
+              };
+              normalized.run = {
+                id: run.id || null,
+                run_number: run.run_number || null,
+                run_attempt: run.run_attempt || null,
+                event: run.event || null,
+                status: run.status || null,
+                conclusion: run.conclusion || null,
+                branch: run.head_branch || null,
+                sha: run.head_sha || null,
+                actor: run.actor?.login || null,
+                triggering_actor: run.triggering_actor?.login || null,
+                started_at: iso(run.run_started_at || run.created_at),
+                updated_at: iso(run.updated_at),
+                completed_at: iso(run.updated_at || run.completed_at),
+                html_url: run.html_url || null
+              };
+            }
+
+            if (eventName === "workflow_job") {
+              const job = payload.workflow_job || {};
+              normalized.workflow = {
+                id: job.workflow_id || null,
+                name: job.name || null,
+                path: null
+              };
+              normalized.run = {
+                id: job.run_id || null,
+                run_number: job.run_number || null,
+                run_attempt: job.run_attempt || null,
+                event: null,
+                status: null,
+                conclusion: null,
+                branch: payload.repository?.default_branch || null,
+                sha: job.head_sha || null,
+                actor: null,
+                triggering_actor: null,
+                started_at: iso(job.started_at || job.created_at),
+                updated_at: iso(job.completed_at || job.updated_at),
+                completed_at: iso(job.completed_at),
+                html_url: job.html_url || null
+              };
+              normalized.job = {
+                id: job.id || null,
+                name: job.name || null,
+                status: job.status || null,
+                conclusion: job.conclusion || null,
+                runner_name: job.runner_name || null,
+                runner_group_name: job.runner_group_name || null,
+                labels: job.labels || [],
+                started_at: iso(job.started_at || job.created_at),
+                completed_at: iso(job.completed_at),
+                steps: (job.steps || []).map((s) => ({
+                  number: s.number || null,
+                  name: s.name || null,
+                  status: s.status || null,
+                  conclusion: s.conclusion || null,
+                  started_at: iso(s.started_at),
+                  completed_at: iso(s.completed_at)
+                }))
+              };
+            }
+
+            if (eventName === "registry_package") {
+              const pkg = payload.registry_package || {};
+              normalized.package = {
+                action: payload.action || null,
+                id: pkg.id || null,
+                name: pkg.name || null,
+                package_type: pkg.package_type || null,
+                ecosystem: pkg.ecosystem || null,
+                namespace: pkg.namespace || null,
+                html_url: pkg.html_url || null,
+                created_at: iso(pkg.created_at),
+                updated_at: iso(pkg.updated_at)
+              };
+            }
+
+            const response = await fetch(ingestUrl, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CI-Source": "github-actions",
+                ...(ingestToken ? { Authorization: `Bearer ${ingestToken}` } : {})
+              },
+              body: JSON.stringify(normalized)
+            });
+
+            if (!response.ok) {
+              const body = await response.text();
+              core.setFailed(`Export failed (${response.status}): ${body}`);
+              return;
+            }
+
+            core.info(`Exported ${eventName} telemetry to observability ingest endpoint.`);

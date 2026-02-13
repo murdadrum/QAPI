@@ -115,3 +115,16 @@ Replace that URL with your actual deployed Worker URL.
 
 - Auth tokens and API keys are stored in `localStorage` for demo convenience.
 - Monitoring pings are sent every 10 seconds for enabled requests.
+
+## CI Observability (Realtime Dashboards)
+
+This repo includes a telemetry export workflow for CI visualization:
+
+- `.github/workflows/ci-observability-export.yml`
+- `workers/ci-observability-ingest/worker.js`
+
+Setup and dashboard guidance:
+
+- `docs/ci-observability.md`
+- `docs/sql/ci_observability_bigquery.sql`
+- `docs/grafana/ci-observability-dashboard.json`
